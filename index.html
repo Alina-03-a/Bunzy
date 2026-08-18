@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Bunzy 🎮</title>
+  <title>Bunzy</title>
 
   <style>
     * {
@@ -14,93 +13,270 @@
     body {
       margin: 0;
       min-height: 100vh;
+      overflow-x: hidden;
       font-family: Arial, sans-serif;
-      background: #f8dfe8;
-      color: #4d3b42;
+      background: #f9e1e8;
+      color: #59653d;
       text-align: center;
     }
 
-    header {
+    /* DECORAZIONI NEGLI ANGOLI */
+
+    .vine {
+      position: fixed;
+      width: 170px;
+      height: 170px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .vine::before {
+      content: "";
+      position: absolute;
+      width: 115px;
+      height: 115px;
+      border: 4px solid #aebf86;
+      border-left: none;
+      border-bottom: none;
+      border-radius: 0 100% 0 0;
+    }
+
+    .vine::after {
+      content: "●   ●   ●";
+      position: absolute;
+      color: #b8ca94;
+      font-size: 20px;
+      letter-spacing: 8px;
+      transform: rotate(-35deg);
+    }
+
+    .top-left {
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+    }
+
+    .top-right {
+      top: 0;
+      right: 0;
+    }
+
+    .bottom-left {
+      bottom: 0;
+      left: 0;
+      transform: rotate(180deg);
+    }
+
+    .bottom-right {
+      bottom: 0;
+      right: 0;
+      transform: rotate(90deg);
+    }
+
+    /* PICCOLI FIORI */
+
+    .flower {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      color: #f1a8bc;
+      font-size: 28px;
+    }
+
+    .flower::before {
+      content: "✿";
+    }
+
+    .flower.one {
+      top: 24%;
+      left: 6%;
+    }
+
+    .flower.two {
+      bottom: 20%;
+      right: 7%;
+      font-size: 22px;
+    }
+
+    /* CONTENUTO */
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
       padding: 55px 20px 35px;
     }
 
     h1 {
-      font-size: clamp(3.5rem, 10vw, 6rem);
       margin: 0;
+      font-size: clamp(4rem, 11vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #ef9db5;
+      text-shadow:
+        3px 3px 0 #fff7f8,
+        6px 6px 0 #aebf86;
     }
 
     .subtitle {
-      font-size: 1.3rem;
-      margin-top: 10px;
+      display: inline-block;
+      margin: 20px 0 25px;
+      padding: 12px 28px;
+      background: rgba(255,255,255,0.55);
+      border: 2px solid #f0b5c5;
+      border-radius: 50px;
+      color: #89616d;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+    }
+
+    .choose {
+      margin: 10px 0 28px;
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      color: #687547;
     }
 
     .games {
-      max-width: 1000px;
+      width: min(100%, 1050px);
       margin: auto;
-      padding: 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
 
     .game {
-      background: #f0f5c9;
-      border-radius: 25px;
-      padding: 35px 20px;
+      min-height: 245px;
+      padding: 28px 15px;
+      background: #f1f5d7;
+      border: 2px solid #b7c78c;
+      border-radius: 28px;
+      box-shadow: 0 8px 0 rgba(183, 199, 140, 0.35);
+      transition: transform 0.2s ease;
       cursor: pointer;
-      transition: 0.2s;
-      font-size: 1.3rem;
     }
 
     .game:hover {
-      transform: scale(1.04);
+      transform: translateY(-7px);
     }
 
     .game-icon {
-      font-size: 3rem;
-      margin-bottom: 10px;
+      font-size: 3.8rem;
+      margin: 12px 0 18px;
     }
 
-    .coming-soon {
-      opacity: 0.65;
+    .game h2 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+      color: #59653d;
+    }
+
+    .game p {
+      margin: 0;
+      color: #d7829a;
+      font-size: 1rem;
+    }
+
+    footer {
+      margin-top: 35px;
+      color: #9b717d;
+    }
+
+    /* IPAD */
+
+    @media (max-width: 900px) {
+      .games {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 600px;
+      }
+    }
+
+    /* TELEFONO */
+
+    @media (max-width: 520px) {
+      .page {
+        padding: 45px 15px 25px;
+      }
+
+      .games {
+        grid-template-columns: 1fr;
+        max-width: 330px;
+      }
+
+      .game {
+        min-height: 210px;
+      }
+
+      .vine {
+        transform: scale(0.7);
+      }
+
+      .top-left {
+        transform: rotate(-90deg) scale(0.7);
+      }
+
+      .bottom-left {
+        transform: rotate(180deg) scale(0.7);
+      }
+
+      .bottom-right {
+        transform: rotate(90deg) scale(0.7);
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>🎀 BUNZY 🎮</h1>
-    <p class="subtitle">Ti annoi? Gioca con noi!</p>
-  </header>
+  <div class="vine top-left"></div>
+  <div class="vine top-right"></div>
+  <div class="vine bottom-left"></div>
+  <div class="vine bottom-right"></div>
 
-  <main class="games">
+  <div class="flower one"></div>
+  <div class="flower two"></div>
 
-    <div class="game">
-      <div class="game-icon">🎲</div>
-      <strong>Gioco misterioso</strong>
-      <p>In arrivo...</p>
+  <div class="page">
+
+    <h1>BUNZY</h1>
+
+    <div class="subtitle">
+      ♡ Ti annoi? Gioca con noi! ♡
     </div>
 
-    <div class="game coming-soon">
-      <div class="game-icon">🧩</div>
-      <strong>Nuovo gioco</strong>
-      <p>Coming soon!</p>
+    <div class="choose">
+      Scegli un gioco!
     </div>
 
-    <div class="game coming-soon">
-      <div class="game-icon">🎨</div>
-      <strong>Nuovo gioco</strong>
-      <p>Coming soon!</p>
-    </div>
+    <main class="games">
 
-    <div class="game coming-soon">
-      <div class="game-icon">✨</div>
-      <strong>Nuovo gioco</strong>
-      <p>Coming soon!</p>
-    </div>
+      <div class="game">
+        <div class="game-icon">🎲</div>
+        <h2>Gioco misterioso</h2>
+        <p>In arrivo...</p>
+      </div>
 
-  </main>
+      <div class="game">
+        <div class="game-icon">🧩</div>
+        <h2>Nuovo gioco</h2>
+        <p>Coming soon!</p>
+      </div>
+
+      <div class="game">
+        <div class="game-icon">🎨</div>
+        <h2>Nuovo gioco</h2>
+        <p>Coming soon!</p>
+      </div>
+
+      <div class="game">
+        <div class="game-icon">✨</div>
+        <h2>Nuovo gioco</h2>
+        <p>Coming soon!</p>
+      </div>
+
+    </main>
+
+    <footer>♡ Bunzy ♡</footer>
+
+  </div>
 
 </body>
 </html>
