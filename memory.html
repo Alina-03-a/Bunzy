@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Memory | Bunzy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f9e1e8;
+      color: #59653d;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .memory-page {
+      min-height: 100vh;
+      padding: 35px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Voluptuous Bubble", Arial, sans-serif;
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      color: #ef9db5;
+      -webkit-text-stroke: 2px #c96f91;
+      text-shadow:
+        3px 3px 0 #fff7f8,
+        6px 6px 0 #aebf86;
+      letter-spacing: 3px;
+    }
+
+    .subtitle {
+      margin-top: 25px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .style-buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .style-card {
+      width: 230px;
+      min-height: 210px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 25px;
+      transition: transform 0.2s;
+    }
+
+    .style-card:hover {
+      transform: scale(1.05);
+    }
+
+    .spring {
+      background: #ffd6e3;
+      color: #c96f91;
+      box-shadow: 7px 7px 0 #aebf86;
+    }
+
+    .night {
+      background: #c9c5e8;
+      color: #665b9c;
+      box-shadow: 7px 7px 0 #8b87b5;
+    }
+
+    .style-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .back-button {
+      margin-top: 45px;
+      padding: 13px 24px;
+      border: none;
+      border-radius: 20px;
+      background: #aebf86;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="memory-page">
+
+    <h1>MEMORY</h1>
+
+    <p class="subtitle">
+      Scegli il tuo stile ✨
+    </p>
+
+    <div class="style-buttons">
+
+      <button class="style-card spring" onclick="startGame('spring')">
+        <span class="style-icon">🌸</span>
+        Primavera Cute
+      </button>
+
+      <button class="style-card night" onclick="startGame('night')">
+        <span class="style-icon">🌙</span>
+        Notte Cute
+      </button>
+
+    </div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+      ← Torna a Bunzy
+    </button>
+
+  </main>
+
+  <script>
+    function startGame(style) {
+      alert("Hai scelto lo stile: " + style);
+    }
+  </script>
+
+</body>
+</html>
