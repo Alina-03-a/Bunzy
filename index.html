@@ -26,62 +26,61 @@
       text-align: center;
     }
 
- /* DECORAZIONI NEGLI ANGOLI */
+/* DECORAZIONI NEGLI ANGOLI */
 
 .vine {
   position: fixed;
-  width: 190px;
-  height: 190px;
+  width: 180px;
+  height: 180px;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.8;
 }
 
-/* Il rametto principale */
+/* Rametto principale curvo */
 .vine::before {
   content: "";
   position: absolute;
-  width: 150px;
-  height: 150px;
-  border: 2px solid #8fa36d;
+  width: 135px;
+  height: 135px;
+  border: 5px solid #91a96f;
   border-left: none;
   border-bottom: none;
-  border-radius: 0 100% 0 0;
+  border-radius: 0 0 0 100%;
 }
 
-/* Le foglioline */
+/* Piccole foglie */
 .vine::after {
-  content: "❦  ❦  ❦";
+  content: "❧  ❧  ❧";
   position: absolute;
   color: #a8bd7d;
-  font-size: 27px;
-  letter-spacing: 14px;
-  transform: rotate(-28deg);
-  top: 35px;
-  left: 25px;
+  font-size: 28px;
+  letter-spacing: 8px;
+  top: 45px;
+  left: 28px;
+  transform: rotate(-25deg);
 }
 
 .top-left {
-  top: -15px;
-  left: -15px;
-  transform: rotate(-90deg);
-}
-
-.top-right {
-  top: -15px;
-  right: -15px;
-}
-
-.bottom-left {
-  bottom: -15px;
-  left: -15px;
+  top: -10px;
+  left: -10px;
   transform: rotate(180deg);
 }
 
-.bottom-right {
-  bottom: -15px;
-  right: -15px;
+.top-right {
+  top: -10px;
+  right: -10px;
   transform: rotate(90deg);
+}
+
+.bottom-left {
+  bottom: -10px;
+  left: -10px;
+  transform: rotate(-90deg);
+}
+
+.bottom-right {
+  bottom: -10px;
+  right: -10px;
 }
     /* PICCOLI FIORI */
 
@@ -108,66 +107,114 @@
       font-size: 22px;
     }
     
-    .flower.three {
-      top: 16%;
-      right: 7%;
-      font-size: 20px;
-    }
+  .flower.three {
+  top: 12%;
+  right: 10%;
+  font-size: 18px;
+}
 
-    .flower.four {
-      bottom: 12%;
-      left: 7%;
-      font-size: 24px;
-   }
+.flower.four {
+  top: 27%;
+  left: 4%;
+  font-size: 22px;
+}
 
-    .flower.five {
-      top: 43%;
-      left: 3%;
-      font-size: 18px;
-   }
+.flower.five {
+  top: 42%;
+  right: 5%;
+  font-size: 17px;
+}
 
-    .flower.six {
-      top: 58%;
-      right: 4%;
-      font-size: 21px;
-   }
+.flower.six {
+  top: 55%;
+  left: 7%;
+  font-size: 20px;
+}
 
-    .flower.seven {
-      top: 8%;
-      left: 22%;
-      font-size: 17px;
-   }
+.flower.seven {
+  top: 70%;
+  right: 6%;
+  font-size: 18px;
+}
 
-    .flower.eight {
-      bottom: 8%;
-      right: 22%;
-      font-size: 19px;
-   }
+.flower.eight {
+  top: 84%;
+  left: 10%;
+  font-size: 23px;
+}
 
-    .flower.nine {
-      top: 34%;
-      right: 2%;
-      font-size: 16px;
-   }
+.flower.nine {
+  top: 20%;
+  left: 18%;
+  font-size: 16px;
+}
 
-    .flower.ten {
-      bottom: 32%;
-      left: 4%;
-      font-size: 20px;
-   }
+.flower.ten {
+  top: 35%;
+  right: 16%;
+  font-size: 21px;
+}
 
-    .flower.eleven {
-      top: 72%;
-      left: 10%;
-      font-size: 17px;
-   }
+.flower.eleven {
+  top: 63%;
+  left: 18%;
+  font-size: 17px;
+}
 
-    .flower.twelve {
-      top: 78%;
-      right: 9%;
-     font-size: 22px;
-   }
+.flower.twelve {
+  top: 76%;
+  right: 17%;
+  font-size: 20px;
+}
 
+.flower.thirteen {
+  top: 7%;
+  left: 35%;
+  font-size: 16px;
+}
+
+.flower.fourteen {
+  top: 18%;
+  right: 28%;
+  font-size: 19px;
+}
+
+.flower.fifteen {
+  top: 32%;
+  left: 12%;
+  font-size: 18px;
+}
+
+.flower.sixteen {
+  top: 47%;
+  right: 12%;
+  font-size: 22px;
+}
+
+.flower.seventeen {
+  top: 58%;
+  left: 28%;
+  font-size: 16px;
+}
+
+.flower.eighteen {
+  top: 68%;
+  right: 28%;
+  font-size: 19px;
+}
+
+.flower.nineteen {
+  top: 88%;
+  left: 30%;
+  font-size: 17px;
+}
+
+.flower.twenty {
+  top: 90%;
+  right: 10%;
+  font-size: 21px;
+}
+    
     /* CONTENUTO */
 
     .page {
@@ -315,6 +362,14 @@
   <div class="flower ten"></div>
   <div class="flower eleven"></div>
   <div class="flower twelve"></div>
+  <div class="flower thirteen"></div>
+<div class="flower fourteen"></div>
+<div class="flower fifteen"></div>
+<div class="flower sixteen"></div>
+<div class="flower seventeen"></div>
+<div class="flower eighteen"></div>
+<div class="flower nineteen"></div>
+<div class="flower twenty"></div>
 
   <div class="page">
 
