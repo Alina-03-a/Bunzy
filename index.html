@@ -30,57 +30,37 @@
 
 .vine {
   position: fixed;
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: auto;
   z-index: 0;
   pointer-events: none;
 }
 
-/* Rametto principale curvo */
-.vine::before {
-  content: "";
-  position: absolute;
-  width: 135px;
-  height: 135px;
-  border: 5px solid #91a96f;
-  border-left: none;
-  border-bottom: none;
-  border-radius: 0 0 0 100%;
-}
-
-/* Piccole foglie */
-.vine::after {
-  content: "❧  ❧  ❧";
-  position: absolute;
-  color: #a8bd7d;
-  font-size: 28px;
-  letter-spacing: 8px;
-  top: 45px;
-  left: 28px;
-  transform: rotate(-25deg);
-}
-
+/* Alto a sinistra */
 .top-left {
-  top: -10px;
-  left: -10px;
-  transform: rotate(180deg);
+  top: 0;
+  left: 0;
 }
 
+/* Alto a destra */
 .top-right {
-  top: -10px;
-  right: -10px;
-  transform: rotate(90deg);
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
 }
 
+/* Basso a sinistra */
 .bottom-left {
-  bottom: -10px;
-  left: -10px;
-  transform: rotate(-90deg);
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
 }
 
+/* Basso a destra */
 .bottom-right {
-  bottom: -10px;
-  right: -10px;
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
 }
     /* PICCOLI FIORI */
 
@@ -345,10 +325,10 @@
 
 <body>
 
-  <div class="vine top-left"></div>
-  <div class="vine top-right"></div>
-  <div class="vine bottom-left"></div>
-  <div class="vine bottom-right"></div>
+<img src="vine.png" class="vine top-left">
+<img src="vine.png" class="vine top-right">
+<img src="vine.png" class="vine bottom-left">
+<img src="vine.png" class="vine bottom-right">
 
   <div class="flower one"></div>
   <div class="flower two"></div>
