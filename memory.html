@@ -101,6 +101,64 @@
       font-size: 1rem;
       cursor: pointer;
     }
+    /* AREA DEL GIOCO */
+
+.hidden {
+  display: none;
+}
+
+.game-area {
+  width: 100%;
+  max-width: 700px;
+  margin-top: 30px;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px 20px;
+  border-radius: 20px;
+  background: #fff4f7;
+  font-weight: bold;
+  color: #c96f91;
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.memory-card {
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 20px;
+  background: #ef9db5;
+  box-shadow: 4px 4px 0 #c96f91;
+  cursor: pointer;
+  font-size: clamp(2rem, 7vw, 4rem);
+  transition: transform 0.2s;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+}
+
+.restart-button {
+  margin-top: 25px;
+  padding: 13px 24px;
+  border: none;
+  border-radius: 20px;
+  background: #aebf86;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+    
   </style>
 </head>
 
@@ -114,31 +172,152 @@
       Scegli il tuo stile ✨
     </p>
 
-    <div class="style-buttons">
+    <div class="style-buttons" id="styleButtons">
 
-      <button class="style-card spring" onclick="startGame('spring')">
-        <span class="style-icon">🌸</span>
-        Primavera
-      </button>
+  <button class="style-card spring" onclick="startGame('spring')">
+    <span class="style-icon">🌸</span>
+    Primavera Cute
+  </button>
 
-      <button class="style-card night" onclick="startGame('night')">
-        <span class="style-icon">🌙</span>
-        Notte
-      </button>
+  <button class="style-card night" onclick="startGame('night')">
+    <span class="style-icon">🌙</span>
+    Notte Cute
+  </button>
 
-    </div>
+</div>
 
+<div id="gameArea" class="game-area hidden">
+
+  <div class="game-info">
+    <div id="selectedStyle"></div>
+    <div>Mosse: <span id="moves">0</span></div>
+  </div>
+
+  <div id="memoryBoard" class="memory-board"></div>
+
+  <button class="restart-button" onclick="restartGame()">
+    Ricomincia ↻
+  </button>
+
+</div>
+    
     <button class="back-button" onclick="window.location.href='index.html'">
       ← Torna a Bunzy
     </button>
 
   </main>
 
-  <script>
-    function startGame(style) {
-      alert("Hai scelto lo stile: " + style);
+ <script>
+  let currentStyle = "";
+  let firstCard = null;
+  let secondCard = null;
+  let lockBoard = false;
+  let moves = 0;
+  let matchedPairs = 0;
+
+  const gameItems = {
+    spring: ["🌸", "🍹", "💗", "🍓", "🦋", "🧸", "🌺", "🎀"],
+    night: ["🌙", "⭐", "🌌", "✨", "👾", "🛏️", "☁️", "🐱"]
+  };
+
+  function startGame(style) {
+    currentStyle = style;
+
+    document.getElementById("styleButtons").style.display = "none";
+    document.getElementById("gameArea").classList.remove("hidden");
+
+    document.getElementById("selectedStyle").textContent =
+      style === "spring" ? "🌸 Primavera Cute" : "🌙 Notte Cute";
+
+    restartGame();
+  }
+
+  function restartGame() {
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+    moves = 0;
+    matchedPairs = 0;
+
+    document.getElementById("moves").textContent = moves;
+
+    const board = document.getElementById("memoryBoard");
+    board.innerHTML = "";
+
+    const cards = [...gameItems[currentStyle], ...gameItems[currentStyle]];
+
+    cards.sort(() => Math.random() - 0.5);
+
+    cards.forEach((item) => {
+      const card = document.createElement("button");
+
+      card.classList.add("memory-card");
+      card.dataset.value = item;
+      card.textContent = "🃏";
+
+      card.addEventListener("click", flipCard);
+
+      board.appendChild(card);
+    });
+  }
+
+  function flipCard() {
+    if (
+      lockBoard ||
+      this === firstCard ||
+      this.classList.contains("matched")
+    ) {
+      return;
     }
-  </script>
+
+    this.textContent = this.dataset.value;
+
+    if (!firstCard) {
+      firstCard = this;
+      return;
+    }
+
+    secondCard = this;
+    moves++;
+
+    document.getElementById("moves").textContent = moves;
+
+    checkMatch();
+  }
+
+  function checkMatch() {
+    if (firstCard.dataset.value === secondCard.dataset.value) {
+      firstCard.classList.add("matched");
+      secondCard.classList.add("matched");
+
+      matchedPairs++;
+
+      resetTurn();
+
+      if (matchedPairs === 8) {
+        setTimeout(() => {
+          alert("Hai vinto! 🎉💗");
+        }, 300);
+      }
+
+    } else {
+      lockBoard = true;
+
+      setTimeout(() => {
+        firstCard.textContent = "🃏";
+        secondCard.textContent = "🃏";
+
+        resetTurn();
+      }, 800);
+    }
+  }
+
+  function resetTurn() {
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+  }
+</script>
 
 </body>
 </html>
