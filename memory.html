@@ -215,10 +215,19 @@
   let moves = 0;
   let matchedPairs = 0;
 
-  const gameItems = {
-    spring: ["🌸", "🍹", "💗", "🍓", "🦋", "🧸", "🌺", "🎀"],
-    night: ["🌙", "⭐", "🌌", "✨", "👾", "🛏️", "☁️", "🐱"]
-  };
+const gameItems = {
+  spring: [
+    "flower.png",
+    "cocktail.png",
+    "heart.png",
+    "strawberry.png",
+    "butterfly.png",
+    "bear.png",
+    "perfume.png",
+    "bow.png"
+  ],
+  night: ["🌙", "⭐", "🌌", "✨", "👾", "🛏️", "☁️", "🐱"]
+};
 
   function startGame(style) {
     currentStyle = style;
@@ -270,7 +279,7 @@
       return;
     }
 
-    this.textContent = this.dataset.value;
+    this.innerHTML = `<img src="${this.dataset.value}" alt="">`;
 
     if (!firstCard) {
       firstCard = this;
@@ -304,9 +313,8 @@
       lockBoard = true;
 
       setTimeout(() => {
-        firstCard.textContent = "🃏";
-        secondCard.textContent = "🃏";
-
+        firstCard.innerHTML = "🃏";
+secondCard.innerHTML = "🃏";
         resetTurn();
       }, 800);
     }
