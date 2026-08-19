@@ -179,10 +179,13 @@
 
     h1 {
       font-family: "Voluptuous Bubble", sans-serif;
-      filter: drop-shadow(2px 0 0 #c96f91)
-        drop-shadow(-2px 0 0 #c96f91)
-        drop-shadow(0 2px 0 #c96f91)
-        drop-shadow(0 -2px 0 #c96f91);
+      text-shadow:
+    -2px -2px 0 #c96f91,
+     2px -2px 0 #c96f91,
+    -2px  2px 0 #c96f91,
+     2px  2px 0 #c96f91,
+     3px  3px 0 #fff7f8,
+     6px  6px 0 #aebf86;
       margin: 0;
       font-size: clamp(5rem, 12vw, 8rem);
       font-weight: 900;
