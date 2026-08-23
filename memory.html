@@ -386,10 +386,14 @@ const gameItems = {
       resetTurn();
 
       if (matchedPairs === 8) {
-        setTimeout(() => {
-          alert("Hai vinto! 🎉💗");
-        }, 300);
-      }
+  setTimeout(() => {
+    alert(
+      currentStyle === "night"
+        ? "Hai vinto! 🌙💙"
+        : "Hai vinto! 🎉💗"
+    );
+  }, 300);
+}
 
     } else {
       lockBoard = true;
