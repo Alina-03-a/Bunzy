@@ -180,6 +180,7 @@ z-index: 1;
     body.spring-theme {
   background: #f9e1e8;
 }
+  
     .spring-theme::before {
   content: "🌸  ·  ✿  ·  🌼  ·  ✿  ·  🌸  ·  ✿  ·  🌼";
   position: fixed;
@@ -190,6 +191,21 @@ z-index: 1;
   line-height: 4.5rem;
   letter-spacing: 3rem;
   opacity: 0.45;
+  overflow: hidden;
+}
+    body.night-theme {
+  background: #cfe9f5;
+}
+    .night-theme::after {
+  content: "🌙  ✦  ⭐  ·  🌙  ✧  ⭐  ·  ✦  🌙";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 2rem;
+  line-height: 5rem;
+  letter-spacing: 3rem;
+  opacity: 0.5;
   overflow: hidden;
 }
     
@@ -266,6 +282,7 @@ const gameItems = {
   function startGame(style) {
     currentStyle = style;
     document.body.classList.toggle("spring-theme", style === "spring");
+    document.body.classList.toggle("night-theme", style === "night");
 
     document.getElementById("styleButtons").style.display = "none";
     document.getElementById("gameArea").classList.remove("hidden");
