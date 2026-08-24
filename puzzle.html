@@ -82,6 +82,75 @@
       color: #c96f91;
     }
 
+    .hidden {
+      display: none;
+    }
+
+    /* SCHERMATA DIFFICOLTÀ */
+
+    .difficulty-screen {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .selected-preview {
+      width: 100%;
+      max-width: 650px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 25px;
+      box-shadow: 7px 7px 0 #aebf86;
+      margin: 10px auto 30px;
+      display: block;
+    }
+
+    .difficulty-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .difficulty-button {
+      width: 210px;
+      border: none;
+      border-radius: 25px;
+      padding: 25px 15px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+
+    .difficulty-button:hover {
+      transform: scale(1.05);
+    }
+
+    .easy {
+      background: #cfe8c7;
+      color: #5f8757;
+      box-shadow: 6px 6px 0 #8caf82;
+    }
+
+    .medium {
+      background: #ffe7a8;
+      color: #b58b32;
+      box-shadow: 6px 6px 0 #d4b55e;
+    }
+
+    .hard {
+      background: #ffc9cf;
+      color: #b85f6d;
+      box-shadow: 6px 6px 0 #d98794;
+    }
+
+    .difficulty-pieces {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
     .back-button {
       margin-top: 40px;
       padding: 13px 24px;
@@ -108,80 +177,126 @@
 
     <h1>PUZZLE</h1>
 
-    <p class="subtitle">
-      Scegli l'immagine che vuoi ricomporre 🧩
-    </p>
+    <!-- SCELTA IMMAGINE -->
 
-    <div class="puzzle-gallery">
+    <div id="imageScreen">
 
-      <button class="puzzle-choice">
-        <img src="autumn.jpeg" alt="Autumn">
-        <div class="puzzle-name">🍂 Autumn</div>
-      </button>
+      <p class="subtitle">
+        Scegli l'immagine che vuoi ricomporre 🧩
+      </p>
 
-      <button class="puzzle-choice">
-        <img src="sea.jpeg" alt="Sea">
-        <div class="puzzle-name">🌊 Sea</div>
-      </button>
+      <div class="puzzle-gallery">
 
-      <button class="puzzle-choice">
-        <img src="island.jpeg" alt="Island">
-        <div class="puzzle-name">🏝️ Island</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('autumn.jpeg')">
+          <img src="autumn.jpeg" alt="Autumn">
+          <div class="puzzle-name">🍂 Autumn</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="icecream.jpeg" alt="Ice Cream">
-        <div class="puzzle-name">🍦 Ice Cream</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('sea.jpeg')">
+          <img src="sea.jpeg" alt="Sea">
+          <div class="puzzle-name">🌊 Sea</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="japan.jpeg" alt="Japan">
-        <div class="puzzle-name">🌸 Japan</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('island.jpeg')">
+          <img src="island.jpeg" alt="Island">
+          <div class="puzzle-name">🏝️ Island</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="winter.jpeg" alt="Winter">
-        <div class="puzzle-name">❄️ Winter</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('icecream.jpeg')">
+          <img src="icecream.jpeg" alt="Ice Cream">
+          <div class="puzzle-name">🍦 Ice Cream</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="fantasypaint.jpeg" alt="Fantasy Paint">
-        <div class="puzzle-name">🎨 Fantasy</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('japan.jpeg')">
+          <img src="japan.jpeg" alt="Japan">
+          <div class="puzzle-name">🌸 Japan</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="castle.jpeg" alt="Castle">
-        <div class="puzzle-name">🏰 Castle</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('winter.jpeg')">
+          <img src="winter.jpeg" alt="Winter">
+          <div class="puzzle-name">❄️ Winter</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="sunset.jpeg" alt="Sunset">
-        <div class="puzzle-name">🌅 Sunset</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('fantasypaint.jpeg')">
+          <img src="fantasypaint.jpeg" alt="Fantasy">
+          <div class="puzzle-name">🎨 Fantasy</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="underwater.png" alt="Underwater">
-        <div class="puzzle-name">🐠 Underwater</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('castle.jpeg')">
+          <img src="castle.jpeg" alt="Castle">
+          <div class="puzzle-name">🏰 Castle</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="cloudycastle.png" alt="Cloudy Castle">
-        <div class="puzzle-name">☁️ Cloudy Castle</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('sunset.jpeg')">
+          <img src="sunset.jpeg" alt="Sunset">
+          <div class="puzzle-name">🌅 Sunset</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="beachparadise.png" alt="Beach Paradise">
-        <div class="puzzle-name">🏖️ Beach Paradise</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('underwater.png')">
+          <img src="underwater.png" alt="Underwater">
+          <div class="puzzle-name">🐠 Underwater</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="nightroom.png" alt="Night Room">
-        <div class="puzzle-name">🌙 Night Room</div>
-      </button>
+        <button class="puzzle-choice" onclick="selectImage('cloudycastle.png')">
+          <img src="cloudycastle.png" alt="Cloudy Castle">
+          <div class="puzzle-name">☁️ Cloudy Castle</div>
+        </button>
 
-      <button class="puzzle-choice">
-        <img src="magicgarden.jpeg" alt="Magic Garden">
-        <div class="puzzle-name">✨ Magic Garden</div>
+        <button class="puzzle-choice" onclick="selectImage('beachparadise.png')">
+          <img src="beachparadise.png" alt="Beach Paradise">
+          <div class="puzzle-name">🏖️ Beach Paradise</div>
+        </button>
+
+        <button class="puzzle-choice" onclick="selectImage('nightroom.png')">
+          <img src="nightroom.png" alt="Night Room">
+          <div class="puzzle-name">🌙 Night Room</div>
+        </button>
+
+        <button class="puzzle-choice" onclick="selectImage('magicgarden.jpeg')">
+          <img src="magicgarden.jpeg" alt="Magic Garden">
+          <div class="puzzle-name">✨ Magic Garden</div>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- SCELTA DIFFICOLTÀ -->
+
+    <div id="difficultyScreen" class="difficulty-screen hidden">
+
+      <p class="subtitle">
+        Scegli la difficoltà 🧩
+      </p>
+
+      <img
+        id="selectedImage"
+        class="selected-preview"
+        src=""
+        alt="Immagine scelta"
+      >
+
+      <div class="difficulty-buttons">
+
+        <button class="difficulty-button easy" onclick="startPuzzle('easy')">
+          🟢 Easy
+          <span class="difficulty-pieces">9 pezzi · 3 × 3</span>
+        </button>
+
+        <button class="difficulty-button medium" onclick="startPuzzle('medium')">
+          🟡 Medium
+          <span class="difficulty-pieces">16 pezzi · 4 × 4</span>
+        </button>
+
+        <button class="difficulty-button hard" onclick="startPuzzle('hard')">
+          🔴 Hard
+          <span class="difficulty-pieces">36 pezzi · 6 × 6</span>
+        </button>
+
+      </div>
+
+      <button class="back-button" onclick="backToImages()">
+        ← Cambia immagine
       </button>
 
     </div>
@@ -191,6 +306,30 @@
     </button>
 
   </main>
+
+  <script>
+    let selectedImage = "";
+
+    function selectImage(image) {
+      selectedImage = image;
+
+      document.getElementById("selectedImage").src = image;
+
+      document.getElementById("imageScreen").classList.add("hidden");
+      document.getElementById("difficultyScreen").classList.remove("hidden");
+    }
+
+    function backToImages() {
+      document.getElementById("difficultyScreen").classList.add("hidden");
+      document.getElementById("imageScreen").classList.remove("hidden");
+    }
+
+    function startPuzzle(difficulty) {
+      alert(
+        "Hai scelto " + difficulty + "! 🧩"
+      );
+    }
+  </script>
 
 </body>
 </html>
