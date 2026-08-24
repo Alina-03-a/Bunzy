@@ -572,6 +572,50 @@ function stopDrag(event) {
     piece.releasePointerCapture(event.pointerId);
   }
 
+  const board = document.getElementById("puzzleBoard");
+
+  let rows;
+  let cols;
+
+  if (currentDifficulty === "easy") {
+    rows = 3;
+    cols = 3;
+  } else if (currentDifficulty === "medium") {
+    rows = 4;
+    cols = 4;
+  } else {
+    rows = 6;
+    cols = 6;
+  }
+
+  const row = Number(piece.dataset.row);
+  const col = Number(piece.dataset.col);
+
+  const pieceWidth = board.clientWidth / cols;
+  const pieceHeight = board.clientHeight / rows;
+
+  const correctX = col * pieceWidth;
+  const correctY = row * pieceHeight;
+
+  const currentX = parseFloat(piece.style.left);
+  const currentY = parseFloat(piece.style.top);
+
+  const distance = Math.hypot(
+    currentX - correctX,
+    currentY - correctY
+  );
+
+  if (distance < 80) {
+    piece.style.left = correctX + "px";
+    piece.style.top = correctY + "px";
+
+    piece.style.zIndex = "500";
+
+    piece.dataset.locked = "true";
+    piece.style.cursor = "default";
+    piece.style.pointerEvents = "none";
+  }
+
   draggedPiece = null;
 
   checkPuzzle();
