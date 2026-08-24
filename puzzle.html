@@ -162,6 +162,45 @@
       font-size: 1rem;
       cursor: pointer;
     }
+    /* GIOCO PUZZLE */
+
+.puzzle-game {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.puzzle-board {
+  width: 100%;
+  max-width: 600px;
+  margin: 25px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  background: white;
+  padding: 4px;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.puzzle-piece {
+  aspect-ratio: 1 / 1;
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.puzzle-piece.selected {
+  transform: scale(0.95);
+  box-shadow: inset 0 0 0 4px #ef9db5;
+}
+
+.puzzle-message {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #c96f91;
+  margin-top: 20px;
+}
 
     @media (max-width: 600px) {
       .puzzle-gallery {
@@ -298,7 +337,30 @@
       <button class="back-button" onclick="backToImages()">
         ← Cambia immagine
       </button>
+    </div>
 
+    <!-- GIOCO PUZZLE -->
+
+    <div id="puzzleGame" class="puzzle-game hidden">
+
+      <p class="subtitle">
+        Ricomponi l'immagine! 🧩
+      </p>
+
+      <div id="puzzleBoard" class="puzzle-board"></div>
+
+      <div id="puzzleMessage" class="puzzle-message"></div>
+
+      <button class="back-button" onclick="backToDifficulty()">
+        ← Cambia difficoltà
+      </button>
+
+    </div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+      ← Torna a Bunzy
+    </button>
+    
     </div>
 
     <button class="back-button" onclick="window.location.href='index.html'">
@@ -324,11 +386,111 @@
       document.getElementById("imageScreen").classList.remove("hidden");
     }
 
-    function startPuzzle(difficulty) {
-      alert(
-        "Hai scelto " + difficulty + "! 🧩"
-      );
+    let selectedPiece = null;
+
+function startPuzzle(difficulty) {
+  if (difficulty !== "easy") {
+    alert("Per ora facciamo prima Easy! 🧩");
+    return;
+  }
+
+  document.getElementById("difficultyScreen").classList.add("hidden");
+  document.getElementById("puzzleGame").classList.remove("hidden");
+
+  createPuzzle();
+}
+
+function createPuzzle() {
+  const board = document.getElementById("puzzleBoard");
+
+  board.innerHTML = "";
+  selectedPiece = null;
+
+  const pieces = [];
+
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+      pieces.push({
+        row: row,
+        col: col
+      });
     }
+  }
+
+  pieces.sort(() => Math.random() - 0.5);
+
+  pieces.forEach((piece) => {
+    const div = document.createElement("div");
+
+    div.classList.add("puzzle-piece");
+
+    div.style.backgroundImage = `url("${selectedImage}")`;
+    div.style.backgroundPosition =
+      `${piece.col * 50}% ${piece.row * 50}%`;
+
+    div.addEventListener("click", selectPiece);
+
+    board.appendChild(div);
+  });
+}
+
+function selectPiece(event) {
+  const piece = event.currentTarget;
+
+  if (!selectedPiece) {
+    selectedPiece = piece;
+    piece.classList.add("selected");
+    return;
+  }
+
+  if (selectedPiece === piece) {
+    piece.classList.remove("selected");
+    selectedPiece = null;
+    return;
+  }
+
+  const firstPosition = selectedPiece.style.backgroundPosition;
+  const secondPosition = piece.style.backgroundPosition;
+
+  selectedPiece.style.backgroundPosition = secondPosition;
+  piece.style.backgroundPosition = firstPosition;
+
+  selectedPiece.classList.remove("selected");
+  selectedPiece = null;
+
+  checkPuzzle();
+}
+
+function checkPuzzle() {
+  const pieces = document.querySelectorAll(".puzzle-piece");
+
+  let complete = true;
+
+  pieces.forEach((piece, index) => {
+    const row = Math.floor(index / 3);
+    const col = index % 3;
+
+    const correctPosition =
+      `${col * 50}% ${row * 50}%`;
+
+    if (piece.style.backgroundPosition !== correctPosition) {
+      complete = false;
+    }
+  });
+
+  if (complete) {
+    document.getElementById("puzzleMessage").textContent =
+      "Hai completato il puzzle! 🎉💗";
+  }
+}
+
+function backToDifficulty() {
+  document.getElementById("puzzleGame").classList.add("hidden");
+  document.getElementById("difficultyScreen").classList.remove("hidden");
+
+  document.getElementById("puzzleMessage").textContent = "";
+  selectedPiece = null;
+}
   </script>
 
 </body>
