@@ -162,37 +162,40 @@
       font-size: 1rem;
       cursor: pointer;
     }
-    /* GIOCO PUZZLE */
+/* GIOCO PUZZLE */
 
 .puzzle-game {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
 .puzzle-board {
   width: 100%;
-  max-width: 600px;
+  max-width: 760px;
+  aspect-ratio: 16 / 9;
   margin: 25px auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  background: white;
-  padding: 4px;
-  border-radius: 18px;
+  position: relative;
+  border: 4px dashed #aebf86;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.45);
   overflow: hidden;
+  touch-action: none;
 }
 
 .puzzle-piece {
+  position: absolute;
+  width: 33.333%;
   aspect-ratio: 1 / 1;
-  background-size: 300% 300%;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  transition: transform 0.15s;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.18));
+  transition: filter 0.2s;
 }
 
-.puzzle-piece.selected {
-  transform: scale(0.95);
-  box-shadow: inset 0 0 0 4px #ef9db5;
+.puzzle-piece:active {
+  cursor: grabbing;
+  filter: drop-shadow(4px 6px 5px rgba(0, 0, 0, 0.25));
 }
 
 .puzzle-message {
@@ -357,13 +360,7 @@
 
     </div>
 
-    <button class="back-button" onclick="window.location.href='index.html'">
-      ← Torna a Bunzy
-    </button>
-    
-    </div>
-
-    <button class="back-button" onclick="window.location.href='index.html'">
+        <button class="back-button" onclick="window.location.href='index.html'">
       ← Torna a Bunzy
     </button>
 
@@ -386,13 +383,13 @@
       document.getElementById("imageScreen").classList.remove("hidden");
     }
 
-    let selectedPiece = null;
+    let currentDifficulty = "easy";
+let draggedPiece = null;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
 
 function startPuzzle(difficulty) {
-  if (difficulty !== "easy") {
-    alert("Per ora facciamo prima Easy! 🧩");
-    return;
-  }
+  currentDifficulty = difficulty;
 
   document.getElementById("difficultyScreen").classList.add("hidden");
   document.getElementById("puzzleGame").classList.remove("hidden");
@@ -404,83 +401,250 @@ function createPuzzle() {
   const board = document.getElementById("puzzleBoard");
 
   board.innerHTML = "";
-  selectedPiece = null;
+  document.getElementById("puzzleMessage").textContent = "";
+
+  let rows;
+  let cols;
+
+  if (currentDifficulty === "easy") {
+    rows = 3;
+    cols = 3;
+  } else if (currentDifficulty === "medium") {
+    rows = 4;
+    cols = 4;
+  } else {
+    rows = 6;
+    cols = 6;
+  }
+
+  const boardWidth = board.clientWidth;
+  const pieceWidth = boardWidth / cols;
+  const pieceHeight = board.clientHeight / rows;
 
   const pieces = [];
 
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-      pieces.push({
-        row: row,
-        col: col
-      });
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      pieces.push({ row, col });
     }
   }
 
   pieces.sort(() => Math.random() - 0.5);
 
-  pieces.forEach((piece) => {
-    const div = document.createElement("div");
+  pieces.forEach((piece, index) => {
 
-    div.classList.add("puzzle-piece");
+    const svg = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "svg"
+    );
 
-    div.style.backgroundImage = `url("${selectedImage}")`;
-    div.style.backgroundPosition =
-      `${piece.col * 50}% ${piece.row * 50}%`;
+    svg.classList.add("puzzle-piece");
 
-    div.addEventListener("click", selectPiece);
+    svg.style.width = pieceWidth + "px";
+    svg.style.height = pieceHeight + "px";
 
-    board.appendChild(div);
+    const randomX =
+      Math.random() * Math.max(10, boardWidth - pieceWidth);
+
+    const randomY =
+      Math.random() * Math.max(10, board.clientHeight - pieceHeight);
+
+    svg.style.left = randomX + "px";
+    svg.style.top = randomY + "px";
+    svg.style.zIndex = index + 1;
+
+    svg.dataset.row = piece.row;
+    svg.dataset.col = piece.col;
+
+    const clipId = "clip-" + index + "-" + Date.now();
+
+    svg.setAttribute(
+      "viewBox",
+      "0 0 100 100"
+    );
+
+    svg.innerHTML = `
+      <defs>
+        <clipPath id="${clipId}">
+          <path d="
+            M 0 0
+            H 35
+            C 35 12, 65 12, 65 0
+            H 100
+            V 35
+            C 88 35, 88 65, 100 65
+            V 100
+            H 65
+            C 65 88, 35 88, 35 100
+            H 0
+            V 65
+            C 12 65, 12 35, 0 35
+            Z
+          "/>
+        </clipPath>
+      </defs>
+
+      <image
+        href="${selectedImage}"
+        width="${cols * 100}"
+        height="${rows * 100}"
+        x="${-piece.col * 100}"
+        y="${-piece.row * 100}"
+        preserveAspectRatio="none"
+        clip-path="url(#${clipId})"
+      />
+
+      <path
+        d="
+          M 0 0
+          H 35
+          C 35 12, 65 12, 65 0
+          H 100
+          V 35
+          C 88 35, 88 65, 100 65
+          V 100
+          H 65
+          C 65 88, 35 88, 35 100
+          H 0
+          V 65
+          C 12 65, 12 35, 0 35
+          Z
+        "
+        fill="none"
+        stroke="rgba(255,255,255,0.8)"
+        stroke-width="2"
+      />
+    `;
+
+    svg.addEventListener("pointerdown", startDrag);
+
+    board.appendChild(svg);
   });
 }
 
-function selectPiece(event) {
-  const piece = event.currentTarget;
+function startDrag(event) {
+  draggedPiece = event.currentTarget;
 
-  if (!selectedPiece) {
-    selectedPiece = piece;
-    piece.classList.add("selected");
-    return;
+  draggedPiece.setPointerCapture(event.pointerId);
+
+  const rect = draggedPiece.getBoundingClientRect();
+
+  dragOffsetX = event.clientX - rect.left;
+  dragOffsetY = event.clientY - rect.top;
+
+  draggedPiece.style.zIndex = "999";
+
+  draggedPiece.addEventListener("pointermove", dragPiece);
+  draggedPiece.addEventListener("pointerup", stopDrag);
+}
+
+function dragPiece(event) {
+  if (!draggedPiece) return;
+
+  const board = document.getElementById("puzzleBoard");
+  const boardRect = board.getBoundingClientRect();
+
+  let newX =
+    event.clientX -
+    boardRect.left -
+    dragOffsetX;
+
+  let newY =
+    event.clientY -
+    boardRect.top -
+    dragOffsetY;
+
+  newX = Math.max(
+    -draggedPiece.offsetWidth * 0.2,
+    Math.min(
+      newX,
+      board.clientWidth - draggedPiece.offsetWidth * 0.8
+    )
+  );
+
+  newY = Math.max(
+    -draggedPiece.offsetHeight * 0.2,
+    Math.min(
+      newY,
+      board.clientHeight - draggedPiece.offsetHeight * 0.8
+    )
+  );
+
+  draggedPiece.style.left = newX + "px";
+  draggedPiece.style.top = newY + "px";
+}
+
+function stopDrag(event) {
+  if (!draggedPiece) return;
+
+  const board = document.getElementById("puzzleBoard");
+
+  const row = Number(draggedPiece.dataset.row);
+  const col = Number(draggedPiece.dataset.col);
+
+  let rows;
+  let cols;
+
+  if (currentDifficulty === "easy") {
+    rows = 3;
+    cols = 3;
+  } else if (currentDifficulty === "medium") {
+    rows = 4;
+    cols = 4;
+  } else {
+    rows = 6;
+    cols = 6;
   }
 
-  if (selectedPiece === piece) {
-    piece.classList.remove("selected");
-    selectedPiece = null;
-    return;
+  const correctX =
+    col * (board.clientWidth / cols);
+
+  const correctY =
+    row * (board.clientHeight / rows);
+
+  const currentX =
+    parseFloat(draggedPiece.style.left);
+
+  const currentY =
+    parseFloat(draggedPiece.style.top);
+
+  const distance = Math.hypot(
+    currentX - correctX,
+    currentY - correctY
+  );
+
+  if (distance < 45) {
+    draggedPiece.style.left = correctX + "px";
+    draggedPiece.style.top = correctY + "px";
+    draggedPiece.style.zIndex = "2";
+
+    draggedPiece.dataset.locked = "true";
+    draggedPiece.style.pointerEvents = "none";
   }
 
-  const firstPosition = selectedPiece.style.backgroundPosition;
-  const secondPosition = piece.style.backgroundPosition;
+  draggedPiece.removeEventListener("pointermove", dragPiece);
+  draggedPiece.removeEventListener("pointerup", stopDrag);
 
-  selectedPiece.style.backgroundPosition = secondPosition;
-  piece.style.backgroundPosition = firstPosition;
-
-  selectedPiece.classList.remove("selected");
-  selectedPiece = null;
+  draggedPiece = null;
 
   checkPuzzle();
 }
 
 function checkPuzzle() {
-  const pieces = document.querySelectorAll(".puzzle-piece");
+  const pieces =
+    document.querySelectorAll(".puzzle-piece");
 
   let complete = true;
 
-  pieces.forEach((piece, index) => {
-    const row = Math.floor(index / 3);
-    const col = index % 3;
-
-    const correctPosition =
-      `${col * 50}% ${row * 50}%`;
-
-    if (piece.style.backgroundPosition !== correctPosition) {
+  pieces.forEach((piece) => {
+    if (piece.dataset.locked !== "true") {
       complete = false;
     }
   });
 
-  if (complete) {
+  if (complete && pieces.length > 0) {
     document.getElementById("puzzleMessage").textContent =
-      "Hai completato il puzzle! 🎉💗";
+      "Hai completato il puzzle! 🎉🧩💗";
   }
 }
 
@@ -489,7 +653,6 @@ function backToDifficulty() {
   document.getElementById("difficultyScreen").classList.remove("hidden");
 
   document.getElementById("puzzleMessage").textContent = "";
-  selectedPiece = null;
 }
   </script>
 
