@@ -171,17 +171,15 @@
 
 .puzzle-board {
   width: 100%;
-  max-width: 760px;
-  aspect-ratio: 16 / 9;
+  max-width: 600px;
+  aspect-ratio: 1 / 1;
   margin: 25px auto;
   position: relative;
-  border: 4px dashed #aebf86;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.45);
   overflow: hidden;
+  background: white;
+  border-radius: 18px;
   touch-action: none;
 }
-
 .puzzle-piece {
   position: absolute;
   cursor: grab;
@@ -594,8 +592,10 @@ function stopDrag(event) {
   const pieceWidth = board.clientWidth / cols;
   const pieceHeight = board.clientHeight / rows;
 
-  const correctX = col * pieceWidth;
-  const correctY = row * pieceHeight;
+  const overlap = 18;
+
+const correctX = col * (pieceWidth - overlap);
+const correctY = row * (pieceHeight - overlap);
 
   const currentX = parseFloat(piece.style.left);
   const currentY = parseFloat(piece.style.top);
