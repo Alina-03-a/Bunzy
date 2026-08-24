@@ -184,13 +184,9 @@
 
 .puzzle-piece {
   position: absolute;
-  width: 33.333%;
-  aspect-ratio: 1 / 1;
   cursor: grab;
   touch-action: none;
   user-select: none;
-  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.18));
-  transition: filter 0.2s;
 }
 
 .puzzle-piece:active {
@@ -523,19 +519,24 @@ function createPuzzle() {
 }
 
 function startDrag(event) {
+  event.preventDefault();
+
   draggedPiece = event.currentTarget;
 
-  draggedPiece.setPointerCapture(event.pointerId);
+  const board = document.getElementById("puzzleBoard");
+  const pieceRect = draggedPiece.getBoundingClientRect();
+  const boardRect = board.getBoundingClientRect();
 
-  const rect = draggedPiece.getBoundingClientRect();
-
-  dragOffsetX = event.clientX - rect.left;
-  dragOffsetY = event.clientY - rect.top;
+  dragOffsetX = event.clientX - pieceRect.left;
+  dragOffsetY = event.clientY - pieceRect.top;
 
   draggedPiece.style.zIndex = "999";
 
-  draggedPiece.addEventListener("pointermove", dragPiece);
-  draggedPiece.addEventListener("pointerup", stopDrag);
+  draggedPiece.setPointerCapture(event.pointerId);
+
+  draggedPiece.onpointermove = dragPiece;
+  draggedPiece.onpointerup = stopDrag;
+  draggedPiece.onpointercancel = stopDrag;
 }
 
 function dragPiece(event) {
@@ -577,6 +578,14 @@ function dragPiece(event) {
 function stopDrag(event) {
   if (!draggedPiece) return;
 
+  if (draggedPiece.hasPointerCapture(event.pointerId)) {
+    draggedPiece.releasePointerCapture(event.pointerId);
+  }
+
+  draggedPiece.onpointermove = null;
+  draggedPiece.onpointerup = null;
+  draggedPiece.onpointercancel = null;
+
   const board = document.getElementById("puzzleBoard");
 
   const row = Number(draggedPiece.dataset.row);
@@ -596,17 +605,11 @@ function stopDrag(event) {
     cols = 6;
   }
 
-  const correctX =
-    col * (board.clientWidth / cols);
+  const correctX = col * (board.clientWidth / cols);
+  const correctY = row * (board.clientHeight / rows);
 
-  const correctY =
-    row * (board.clientHeight / rows);
-
-  const currentX =
-    parseFloat(draggedPiece.style.left);
-
-  const currentY =
-    parseFloat(draggedPiece.style.top);
+  const currentX = parseFloat(draggedPiece.style.left);
+  const currentY = parseFloat(draggedPiece.style.top);
 
   const distance = Math.hypot(
     currentX - correctX,
@@ -621,9 +624,6 @@ function stopDrag(event) {
     draggedPiece.dataset.locked = "true";
     draggedPiece.style.pointerEvents = "none";
   }
-
-  draggedPiece.removeEventListener("pointermove", dragPiece);
-  draggedPiece.removeEventListener("pointerup", stopDrag);
 
   draggedPiece = null;
 
