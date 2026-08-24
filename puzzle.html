@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Puzzle | Bunzy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f9e1e8;
+      color: #59653d;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .puzzle-page {
+      min-height: 100vh;
+      padding: 35px 20px 50px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Voluptuous Bubble", Arial, sans-serif;
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      color: #ef9db5;
+      -webkit-text-stroke: 2px #c96f91;
+      text-shadow:
+        3px 3px 0 #fff7f8,
+        6px 6px 0 #aebf86;
+      letter-spacing: 3px;
+    }
+
+    .subtitle {
+      margin: 15px 0 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .puzzle-gallery {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .puzzle-choice {
+      border: none;
+      padding: 0;
+      background: #fff7f8;
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 6px 6px 0 #aebf86;
+      transition: transform 0.2s;
+    }
+
+    .puzzle-choice:hover {
+      transform: scale(1.03);
+    }
+
+    .puzzle-choice img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .puzzle-name {
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #c96f91;
+    }
+
+    .back-button {
+      margin-top: 40px;
+      padding: 13px 24px;
+      border: none;
+      border-radius: 20px;
+      background: #aebf86;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .puzzle-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="puzzle-page">
+
+    <h1>PUZZLE</h1>
+
+    <p class="subtitle">
+      Scegli l'immagine che vuoi ricomporre 🧩
+    </p>
+
+    <div class="puzzle-gallery">
+
+      <button class="puzzle-choice">
+        <img src="autumn.jpeg" alt="Autumn">
+        <div class="puzzle-name">🍂 Autumn</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="sea.jpeg" alt="Sea">
+        <div class="puzzle-name">🌊 Sea</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="island.jpeg" alt="Island">
+        <div class="puzzle-name">🏝️ Island</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="icecream.jpeg" alt="Ice Cream">
+        <div class="puzzle-name">🍦 Ice Cream</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="japan.jpeg" alt="Japan">
+        <div class="puzzle-name">🌸 Japan</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="winter.jpeg" alt="Winter">
+        <div class="puzzle-name">❄️ Winter</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="fantasypaint.jpeg" alt="Fantasy Paint">
+        <div class="puzzle-name">🎨 Fantasy</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="castle.jpeg" alt="Castle">
+        <div class="puzzle-name">🏰 Castle</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="sunset.jpeg" alt="Sunset">
+        <div class="puzzle-name">🌅 Sunset</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="underwater.png" alt="Underwater">
+        <div class="puzzle-name">🐠 Underwater</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="cloudycastle.png" alt="Cloudy Castle">
+        <div class="puzzle-name">☁️ Cloudy Castle</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="beachparadise.png" alt="Beach Paradise">
+        <div class="puzzle-name">🏖️ Beach Paradise</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="nightroom.png" alt="Night Room">
+        <div class="puzzle-name">🌙 Night Room</div>
+      </button>
+
+      <button class="puzzle-choice">
+        <img src="magicgarden.jpeg" alt="Magic Garden">
+        <div class="puzzle-name">✨ Magic Garden</div>
+      </button>
+
+    </div>
+
+    <button class="back-button" onclick="window.location.href='index.html'">
+      ← Torna a Bunzy
+    </button>
+
+  </main>
+
+</body>
+</html>
