@@ -523,53 +523,37 @@ function startDrag(event) {
 
   draggedPiece = event.currentTarget;
 
-  const board = document.getElementById("puzzleBoard");
   const pieceRect = draggedPiece.getBoundingClientRect();
-  const boardRect = board.getBoundingClientRect();
 
   dragOffsetX = event.clientX - pieceRect.left;
   dragOffsetY = event.clientY - pieceRect.top;
 
-  draggedPiece.style.zIndex = "999";
+  draggedPiece.style.zIndex = "1000";
 
   draggedPiece.setPointerCapture(event.pointerId);
 
-  draggedPiece.onpointermove = dragPiece;
-  draggedPiece.onpointerup = stopDrag;
-  draggedPiece.onpointercancel = stopDrag;
+  draggedPiece.addEventListener("pointermove", dragPiece);
+  draggedPiece.addEventListener("pointerup", stopDrag);
+  draggedPiece.addEventListener("pointercancel", stopDrag);
 }
 
 function dragPiece(event) {
   if (!draggedPiece) return;
 
+  event.preventDefault();
+
   const board = document.getElementById("puzzleBoard");
   const boardRect = board.getBoundingClientRect();
 
-  let newX =
+  const newX =
     event.clientX -
     boardRect.left -
     dragOffsetX;
 
-  let newY =
+  const newY =
     event.clientY -
     boardRect.top -
     dragOffsetY;
-
-  newX = Math.max(
-    -draggedPiece.offsetWidth * 0.2,
-    Math.min(
-      newX,
-      board.clientWidth - draggedPiece.offsetWidth * 0.8
-    )
-  );
-
-  newY = Math.max(
-    -draggedPiece.offsetHeight * 0.2,
-    Math.min(
-      newY,
-      board.clientHeight - draggedPiece.offsetHeight * 0.8
-    )
-  );
 
   draggedPiece.style.left = newX + "px";
   draggedPiece.style.top = newY + "px";
@@ -578,58 +562,21 @@ function dragPiece(event) {
 function stopDrag(event) {
   if (!draggedPiece) return;
 
-  if (draggedPiece.hasPointerCapture(event.pointerId)) {
-    draggedPiece.releasePointerCapture(event.pointerId);
-  }
+  const piece = draggedPiece;
 
-  draggedPiece.onpointermove = null;
-  draggedPiece.onpointerup = null;
-  draggedPiece.onpointercancel = null;
+  piece.removeEventListener("pointermove", dragPiece);
+  piece.removeEventListener("pointerup", stopDrag);
+  piece.removeEventListener("pointercancel", stopDrag);
 
-  const board = document.getElementById("puzzleBoard");
-
-  const row = Number(draggedPiece.dataset.row);
-  const col = Number(draggedPiece.dataset.col);
-
-  let rows;
-  let cols;
-
-  if (currentDifficulty === "easy") {
-    rows = 3;
-    cols = 3;
-  } else if (currentDifficulty === "medium") {
-    rows = 4;
-    cols = 4;
-  } else {
-    rows = 6;
-    cols = 6;
-  }
-
-  const correctX = col * (board.clientWidth / cols);
-  const correctY = row * (board.clientHeight / rows);
-
-  const currentX = parseFloat(draggedPiece.style.left);
-  const currentY = parseFloat(draggedPiece.style.top);
-
-  const distance = Math.hypot(
-    currentX - correctX,
-    currentY - correctY
-  );
-
-  if (distance < 45) {
-    draggedPiece.style.left = correctX + "px";
-    draggedPiece.style.top = correctY + "px";
-    draggedPiece.style.zIndex = "2";
-
-    draggedPiece.dataset.locked = "true";
-    draggedPiece.style.pointerEvents = "none";
+  if (piece.hasPointerCapture(event.pointerId)) {
+    piece.releasePointerCapture(event.pointerId);
   }
 
   draggedPiece = null;
 
   checkPuzzle();
 }
-
+    
 function checkPuzzle() {
   const pieces =
     document.querySelectorAll(".puzzle-piece");
