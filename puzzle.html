@@ -344,7 +344,7 @@
         Ricomponi l'immagine! 🧩
       </p>
 
-      <div id="puzzleBoard" class="puzzle-board"></div>
+      <div id="realPuzzle"></div>
 
       <div id="puzzleMessage" class="puzzle-message"></div>
 
@@ -378,9 +378,7 @@
     }
 
     let currentDifficulty = "easy";
-let draggedPiece = null;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
+let puzzleCanvas = null;
 
 function startPuzzle(difficulty) {
   currentDifficulty = difficulty;
@@ -388,255 +386,95 @@ function startPuzzle(difficulty) {
   document.getElementById("difficultyScreen").classList.add("hidden");
   document.getElementById("puzzleGame").classList.remove("hidden");
 
-  createPuzzle();
+  createRealPuzzle();
 }
 
-function createPuzzle() {
-  const board = document.getElementById("puzzleBoard");
+function createRealPuzzle() {
+  const container = document.getElementById("realPuzzle");
 
-  board.innerHTML = "";
+  // Pulisce il vecchio puzzle
+  container.innerHTML = "";
   document.getElementById("puzzleMessage").textContent = "";
 
-  let rows;
-  let cols;
-
-  if (currentDifficulty === "easy") {
-    rows = 3;
-    cols = 3;
-  } else if (currentDifficulty === "medium") {
-    rows = 4;
-    cols = 4;
-  } else {
-    rows = 6;
-    cols = 6;
-  }
-
-  const boardWidth = board.clientWidth;
-  const pieceWidth = boardWidth / cols;
-  const pieceHeight = board.clientHeight / rows;
-
-  const pieces = [];
-
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      pieces.push({ row, col });
-    }
-  }
-
-  pieces.sort(() => Math.random() - 0.5);
-
-  pieces.forEach((piece, index) => {
-
-    const svg = document.createElementNS(
-      "http://www.w3.org/2000/svg",
-      "svg"
-    );
-
-    svg.classList.add("puzzle-piece");
-
-    svg.style.width = pieceWidth + "px";
-    svg.style.height = pieceHeight + "px";
-
-    const randomX =
-      Math.random() * Math.max(10, boardWidth - pieceWidth);
-
-    const randomY =
-      Math.random() * Math.max(10, board.clientHeight - pieceHeight);
-
-    svg.style.left = randomX + "px";
-    svg.style.top = randomY + "px";
-    svg.style.zIndex = index + 1;
-
-    svg.dataset.row = piece.row;
-    svg.dataset.col = piece.col;
-
-    const clipId = "clip-" + index + "-" + Date.now();
-
-    svg.setAttribute(
-      "viewBox",
-      "0 0 100 100"
-    );
-
-    svg.innerHTML = `
-      <defs>
-        <clipPath id="${clipId}">
-          <path d="
-            M 0 0
-            H 35
-            C 35 12, 65 12, 65 0
-            H 100
-            V 35
-            C 88 35, 88 65, 100 65
-            V 100
-            H 65
-            C 65 88, 35 88, 35 100
-            H 0
-            V 65
-            C 12 65, 12 35, 0 35
-            Z
-          "/>
-        </clipPath>
-      </defs>
-
-      <image
-        href="${selectedImage}"
-        width="${cols * 100}"
-        height="${rows * 100}"
-        x="${-piece.col * 100}"
-        y="${-piece.row * 100}"
-        preserveAspectRatio="none"
-        clip-path="url(#${clipId})"
-      />
-
-      <path
-        d="
-          M 0 0
-          H 35
-          C 35 12, 65 12, 65 0
-          H 100
-          V 35
-          C 88 35, 88 65, 100 65
-          V 100
-          H 65
-          C 65 88, 35 88, 35 100
-          H 0
-          V 65
-          C 12 65, 12 35, 0 35
-          Z
-        "
-        fill="none"
-        stroke="rgba(255,255,255,0.8)"
-        stroke-width="2"
-      />
-    `;
-
-    svg.addEventListener("pointerdown", startDrag);
-
-    board.appendChild(svg);
-  });
-}
-
-function startDrag(event) {
-  event.preventDefault();
-
-  draggedPiece = event.currentTarget;
-
-  const pieceRect = draggedPiece.getBoundingClientRect();
-
-  dragOffsetX = event.clientX - pieceRect.left;
-  dragOffsetY = event.clientY - pieceRect.top;
-
-  draggedPiece.style.zIndex = "1000";
-
-  draggedPiece.setPointerCapture(event.pointerId);
-
-  draggedPiece.addEventListener("pointermove", dragPiece);
-  draggedPiece.addEventListener("pointerup", stopDrag);
-  draggedPiece.addEventListener("pointercancel", stopDrag);
-}
-
-function dragPiece(event) {
-  if (!draggedPiece) return;
-
-  event.preventDefault();
-
-  const board = document.getElementById("puzzleBoard");
-  const boardRect = board.getBoundingClientRect();
-
-  const newX =
-    event.clientX -
-    boardRect.left -
-    dragOffsetX;
-
-  const newY =
-    event.clientY -
-    boardRect.top -
-    dragOffsetY;
-
-  draggedPiece.style.left = newX + "px";
-  draggedPiece.style.top = newY + "px";
-}
-
-function stopDrag(event) {
-  if (!draggedPiece) return;
-
-  const piece = draggedPiece;
-
-  piece.removeEventListener("pointermove", dragPiece);
-  piece.removeEventListener("pointerup", stopDrag);
-  piece.removeEventListener("pointercancel", stopDrag);
-
-  if (piece.hasPointerCapture(event.pointerId)) {
-    piece.releasePointerCapture(event.pointerId);
-  }
-
-  const board = document.getElementById("puzzleBoard");
-
-  let rows;
-  let cols;
-
-  if (currentDifficulty === "easy") {
-    rows = 3;
-    cols = 3;
-  } else if (currentDifficulty === "medium") {
-    rows = 4;
-    cols = 4;
-  } else {
-    rows = 6;
-    cols = 6;
-  }
-
-  const row = Number(piece.dataset.row);
-  const col = Number(piece.dataset.col);
-
-  const pieceWidth = board.clientWidth / cols;
-  const pieceHeight = board.clientHeight / rows;
-
-  const overlap = 18;
-
-const correctX = col * (pieceWidth - overlap);
-const correctY = row * (pieceHeight - overlap);
-
-  const currentX = parseFloat(piece.style.left);
-  const currentY = parseFloat(piece.style.top);
-
-  const distance = Math.hypot(
-    currentX - correctX,
-    currentY - correctY
+  // Dimensione rettangolare del tavolo
+  const width = Math.min(
+    container.parentElement.clientWidth - 20,
+    850
   );
 
-  if (distance < 80) {
-    piece.style.left = correctX + "px";
-    piece.style.top = correctY + "px";
+  const height = width * 9 / 16;
 
-    piece.style.zIndex = "500";
+  // Numero di pezzi
+  let cols;
+  let rows;
 
-    piece.dataset.locked = "true";
-    piece.style.cursor = "default";
-    piece.style.pointerEvents = "none";
+  if (currentDifficulty === "easy") {
+    cols = 3;
+    rows = 3;
+  } else if (currentDifficulty === "medium") {
+    cols = 4;
+    rows = 4;
+  } else {
+    cols = 6;
+    rows = 6;
   }
 
-  draggedPiece = null;
+  const image = new Image();
+  image.src = selectedImage;
 
-  checkPuzzle();
-}
-    
-function checkPuzzle() {
-  const pieces =
-    document.querySelectorAll(".puzzle-piece");
+  image.onload = () => {
 
-  let complete = true;
+    puzzleCanvas = new headbreaker.Canvas("realPuzzle", {
+      width: width,
+      height: height,
 
-  pieces.forEach((piece) => {
-    if (piece.dataset.locked !== "true") {
-      complete = false;
-    }
-  });
+      image: image,
 
-  if (complete && pieces.length > 0) {
-    document.getElementById("puzzleMessage").textContent =
-      "Hai completato il puzzle! 🎉🧩💗";
-  }
+      pieceSize: {
+        x: width / cols,
+        y: height / rows
+      },
+
+      proximity: 25,
+
+      borderFill: {
+        x: 20,
+        y: 20
+      },
+
+      strokeWidth: 2,
+      strokeColor: "#ffffff",
+      lineSoftness: 0.18,
+
+      preventOffstageDrag: true,
+      fixed: true
+    });
+
+    // Mantiene l'immagine proporzionata
+    puzzleCanvas.adjustImagesToPuzzleWidth();
+
+    // Crea i veri pezzi a incastro
+    puzzleCanvas.autogenerate({
+      horizontalPiecesCount: cols,
+      verticalPiecesCount: rows,
+
+      insertsGenerator: headbreaker.generators.random
+    });
+
+    // Mescola i pezzi
+    puzzleCanvas.shuffle(0.7);
+
+    // Disegna il puzzle
+    puzzleCanvas.draw();
+
+    // Controlla quando il puzzle è completato
+    puzzleCanvas.attachSolvedValidator();
+
+    puzzleCanvas.onValid(() => {
+      document.getElementById("puzzleMessage").textContent =
+        "Hai completato il puzzle! 🎉🧩💗";
+    });
+  };
 }
 
 function backToDifficulty() {
@@ -644,6 +482,8 @@ function backToDifficulty() {
   document.getElementById("difficultyScreen").classList.remove("hidden");
 
   document.getElementById("puzzleMessage").textContent = "";
+
+  document.getElementById("realPuzzle").innerHTML = "";
 }
     <script src="https://flbulgarelli.github.io/headbreaker/js/headbreaker.js"></script>
   </script>
