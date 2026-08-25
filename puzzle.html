@@ -377,7 +377,7 @@
       document.getElementById("imageScreen").classList.remove("hidden");
     }
 
-    let currentDifficulty = "easy";
+let currentDifficulty = "easy";
 let puzzleCanvas = null;
 
 function startPuzzle(difficulty) {
@@ -392,19 +392,9 @@ function startPuzzle(difficulty) {
 function createRealPuzzle() {
   const container = document.getElementById("realPuzzle");
 
-  // Pulisce il vecchio puzzle
   container.innerHTML = "";
   document.getElementById("puzzleMessage").textContent = "";
 
-  // Dimensione rettangolare del tavolo
-  const width = Math.min(
-    container.parentElement.clientWidth - 20,
-    850
-  );
-
-  const height = width * 9 / 16;
-
-  // Numero di pezzi
   let cols;
   let rows;
 
@@ -423,51 +413,43 @@ function createRealPuzzle() {
   image.src = selectedImage;
 
   image.onload = () => {
+    const width = Math.min(
+      document.getElementById("puzzleGame").clientWidth - 20,
+      800
+    );
+
+    const height = width * 9 / 16;
 
     puzzleCanvas = new headbreaker.Canvas("realPuzzle", {
       width: width,
       height: height,
-
       image: image,
 
-      pieceSize: {
-        x: width / cols,
-        y: height / rows
-      },
+      pieceSize: Math.min(
+        width / cols,
+        height / rows
+      ),
 
       proximity: 25,
-
-      borderFill: {
-        x: 20,
-        y: 20
-      },
-
+      borderFill: 10,
       strokeWidth: 2,
-      strokeColor: "#ffffff",
       lineSoftness: 0.18,
 
       preventOffstageDrag: true,
       fixed: true
     });
 
-    // Mantiene l'immagine proporzionata
-    puzzleCanvas.adjustImagesToPuzzleWidth();
+    puzzleCanvas.adjustImagesToPuzzleHeight();
 
-    // Crea i veri pezzi a incastro
     puzzleCanvas.autogenerate({
       horizontalPiecesCount: cols,
-      verticalPiecesCount: rows,
-
-      insertsGenerator: headbreaker.generators.random
+      verticalPiecesCount: rows
     });
 
-    // Mescola i pezzi
     puzzleCanvas.shuffle(0.7);
 
-    // Disegna il puzzle
     puzzleCanvas.draw();
 
-    // Controlla quando il puzzle è completato
     puzzleCanvas.attachSolvedValidator();
 
     puzzleCanvas.onValid(() => {
@@ -482,7 +464,6 @@ function backToDifficulty() {
   document.getElementById("difficultyScreen").classList.remove("hidden");
 
   document.getElementById("puzzleMessage").textContent = "";
-
   document.getElementById("realPuzzle").innerHTML = "";
 }
     <script src="https://flbulgarelli.github.io/headbreaker/js/headbreaker.js"></script>
