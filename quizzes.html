@@ -248,61 +248,161 @@
       });
     }
 
-    function renderQuizzes() {
-      myQuizzes.innerHTML = "";
+    
+function renderQuizzes() {
+  myQuizzes.innerHTML = "";
 
-      let quizzes = [];
+  let quizzes = [];
 
-      try {
-        quizzes = JSON.parse(localStorage.getItem("bunzyQuizzes") || "[]");
-        if (!Array.isArray(quizzes)) quizzes = [];
-      } catch {
-        quizzes = [];
-      }
+  try {
+    quizzes = JSON.parse(localStorage.getItem("bunzyQuizzes") || "[]");
+    if (!Array.isArray(quizzes)) quizzes = [];
+  } catch {
+    quizzes = [];
+  }
 
-      if (quizzes.length === 0) {
-        myQuizzes.innerHTML =
-          '<p class="empty">Non hai ancora creato quiz. Iniziamo? 🌸</p>';
-        return;
-      }
+  if (quizzes.length === 0) {
+    myQuizzes.innerHTML =
+      '<p class="empty">Non hai ancora creato quiz. Iniziamo? 🌸</p>';
+    return;
+  }
 
-      quizzes.slice().reverse().forEach((quiz) => {
-        const card = document.createElement("div");
-        card.className = "saved";
+  quizzes.slice().reverse().forEach((quiz) => {
+    const card = document.createElement("div");
+    card.className = "saved";
 
-        const title = document.createElement("h3");
-        title.textContent = "💗 " + quiz.title;
+    const title = document.createElement("h3");
+    title.textContent = "💗 " + quiz.title;
 
-        const category = document.createElement("p");
-        category.textContent =
-          `${quiz.category} · ${quiz.questions.length} domande`;
+    const category = document.createElement("p");
+    category.textContent =
+      `${quiz.category} · ${quiz.questions.length} domande`;
 
-        const privacy = document.createElement("p");
-        privacy.className = "note";
-        privacy.textContent = quiz.publicConsent
-          ? "🌷 Hai dato il consenso alla futura pubblicazione."
-          : "🔒 Quiz privato.";
+    const privacy = document.createElement("p");
+    privacy.className = "note";
+    privacy.textContent = quiz.publicConsent
+      ? "🌷 Hai dato il consenso alla futura pubblicazione."
+      : "🔒 Quiz privato.";
 
-        const remove = document.createElement("button");
-        remove.className = "pink";
-        remove.textContent = "Elimina quiz";
-        remove.addEventListener("click", () => {
-          if (!confirm("Vuoi eliminare questo quiz?")) return;
+    const play = document.createElement("button");
+    play.textContent = "🎮 Gioca";
+    play.addEventListener("click", () => {
+      let index = 0;
+      const answers = [];
 
-          const current = JSON.parse(
-            localStorage.getItem("bunzyQuizzes") || "[]"
-          );
-          current.splice(quiz.id, 1);
-          localStorage.setItem("bunzyQuizzes", JSON.stringify(current));
-          renderQuizzes();
+      function showQuestion() {
+        const question = quiz.questions[index];
+        const area = document.createElement("div");
+        area.className = "saved";
+
+        const heading = document.createElement("h3");
+        heading.textContent = `Domanda ${index + 1} di ${quiz.questions.length}`;
+
+        const prompt = document.createElement("p");
+        prompt.textContent = question.text;
+
+        area.append(heading, prompt);
+
+        question.answers.forEach((answer) => {
+          const choice = document.createElement("button");
+          choice.className = "pink";
+          choice.textContent = answer;
+
+          choice.addEventListener("click", () => {
+            answers.push({
+              question: question.text,
+              answer: answer
+            });
+
+            index++;
+
+            if (index < quiz.questions.length) {
+              showQuestion();
+            } else {
+              showResults();
+            }
+          });
+
+          area.appendChild(choice);
         });
 
-        card.append(title, category, privacy, remove);
-        myQuizzes.appendChild(card);
-      });
-    }
+        const back = document.createElement("button");
+        back.textContent = "✕ Esci dal quiz";
+        back.addEventListener("click", renderQuizzes);
+        area.appendChild(back);
 
-    document.getElementById("addQuestion").addEventListener("click", () => {
+        myQuizzes.innerHTML = "";
+        myQuizzes.appendChild(area);
+      }
+
+      function showResults() {
+        myQuizzes.innerHTML = "";
+
+        const result = document.createElement("div");
+        result.className = "saved";
+
+        const heading = document.createElement("h2");
+        heading.textContent = "🎉 Hai finito!";
+
+        const subtitle = document.createElement("p");
+        subtitle.textContent = "Ecco le tue risposte 💗";
+
+        result.append(heading, subtitle);
+
+        answers.forEach((item, i) => {
+          const line = document.createElement("p");
+          line.textContent =
+            `${i + 1}. ${item.question} — ${item.answer}`;
+          result.appendChild(line);
+        });
+
+        const replay = document.createElement("button");
+        replay.textContent = "🔄 Rigioca";
+        replay.addEventListener("click", () => {
+          index = 0;
+          answers.length = 0;
+          showQuestion();
+        });
+
+        const exit = document.createElement("button");
+        exit.textContent = "🌷 Torna ai miei quiz";
+        exit.addEventListener("click", renderQuizzes);
+
+        result.append(replay, exit);
+        myQuizzes.appendChild(result);
+      }
+
+      showQuestion();
+    });
+
+    const remove = document.createElement("button");
+    remove.className = "pink";
+    remove.textContent = "Elimina quiz";
+
+    remove.addEventListener("click", () => {
+      if (!confirm("Vuoi eliminare questo quiz?")) return;
+
+      const current = JSON.parse(
+        localStorage.getItem("bunzyQuizzes") || "[]"
+      );
+
+      const position = current.findIndex(
+        (item) => item.id === quiz.id
+      );
+
+      if (position !== -1) {
+        current.splice(position, 1);
+      }
+
+      localStorage.setItem("bunzyQuizzes", JSON.stringify(current));
+      renderQuizzes();
+    });
+
+    card.append(title, category, privacy, play, remove);
+    myQuizzes.appendChild(card);
+  });
+}
+
       if (questionsBox.children.length >= 20) {
         message.textContent = "Puoi aggiungere al massimo 20 domande.";
         return;
