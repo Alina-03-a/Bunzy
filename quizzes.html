@@ -403,7 +403,9 @@ function renderQuizzes() {
   });
 }
 
-      if (questionsBox.children.length >= 20) {
+    
+    document.getElementById("addQuestion").addEventListener("click", () => {  
+    if (questionsBox.children.length >= 20) {
         message.textContent = "Puoi aggiungere al massimo 20 domande.";
         return;
       }
