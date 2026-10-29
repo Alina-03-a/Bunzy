@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz World | Bunzy</title>
+
+  <style>
+    @font-face {
+      font-family: "Voluptuous Bubble";
+      src: url("Voluptuous%20Bubble.ttf") format("truetype");
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 25px 15px 45px;
+      min-height: 100vh;
+      background: #f9e1e8;
+      color: #59653d;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      width: min(100%, 760px);
+      margin: auto;
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-family: "Voluptuous Bubble", sans-serif;
+      font-size: clamp(3.5rem, 12vw, 6rem);
+      color: #ef9db5;
+      -webkit-text-stroke: 1px #c96f91;
+      text-shadow: 3px 3px #fff7f8, 5px 5px #aebf86;
+    }
+
+    .subtitle { color: #89616d; margin-bottom: 25px; }
+
+    .panel {
+      background: rgba(255,255,255,.75);
+      border: 2px solid #f0b5c5;
+      border-radius: 25px;
+      padding: 22px;
+      margin: 18px 0;
+      text-align: left;
+      box-shadow: 0 6px 0 rgba(201,111,145,.12);
+    }
+
+    h2 { text-align: center; margin-top: 0; }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 15px 0 7px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #d7dfb4;
+      border-radius: 12px;
+      background: #fffdfd;
+      color: #59653d;
+      font: inherit;
+    }
+
+    textarea { resize: vertical; min-height: 65px; }
+
+    button, .back {
+      display: inline-block;
+      border: 0;
+      border-radius: 18px;
+      padding: 12px 18px;
+      margin: 7px 3px;
+      background: #aebf86;
+      color: #39452b;
+      font: inherit;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:hover, .back:hover { filter: brightness(.96); }
+
+    .pink { background: #ef9db5; color: #593747; }
+    .question {
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px dashed #c96f91;
+      border-radius: 18px;
+      background: #fff7f8;
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-weight: normal;
+      line-height: 1.5;
+    }
+
+    .consent input {
+      width: auto;
+      margin-top: 4px;
+      accent-color: #c96f91;
+    }
+
+    .note {
+      font-size: .9rem;
+      color: #89616d;
+      line-height: 1.5;
+    }
+
+    .saved {
+      background: #f1f5d7;
+      padding: 15px;
+      border-radius: 16px;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .saved h3 { margin: 0 0 8px; }
+    .empty { text-align: center; color: #89616d; }
+
+    footer { margin-top: 30px; color: #9b717d; }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Quiz World</h1>
+    <p class="subtitle">♡ Crea, gioca e mettiti alla prova! ♡</p>
+
+    <a class="back" href="index.html">← Torna a Bunzy</a>
+
+    <div class="panel">
+      <h2>🌸 Crea il tuo quiz</h2>
+
+      <form id="quizForm">
+        <label for="quizTitle">Come si chiamerà il tuo quiz?</label>
+        <input id="quizTitle" maxlength="80"
+          placeholder="Es. Quanto mi conosci?" required>
+
+        <label for="quizCategory">Scegli la categoria</label>
+        <select id="quizCategory">
+          <option>Cosa preferisci?</option>
+          <option>Bestie Quiz</option>
+          <option>Quanto mi conosci?</option>
+          <option>Love Quiz</option>
+          <option>Che tipo di persona sei?</option>
+          <option>Musica e intrattenimento</option>
+          <option>Altro</option>
+        </select>
+
+        <div id="questions"></div>
+
+        <button type="button" id="addQuestion">＋ Aggiungi domanda</button>
+
+        <label class="consent">
+          <input type="checkbox" id="publicConsent">
+          <span>🌷 Acconsento a rendere pubblico questo quiz quando la community di Bunzy sarà attiva. So che gli altri potranno vederlo e giocare.</span>
+        </label>
+
+        <p class="note">
+          Se non selezioni questa casella, il quiz rimarrà privato.
+          Non inserire nomi completi, recapiti o altre informazioni personali.
+        </p>
+
+        <button class="pink" type="submit">♡ Salva il quiz</button>
+      </form>
+
+      <p id="message" class="note" role="status"></p>
+    </div>
+
+    <div class="panel">
+      <h2>💚 I miei quiz</h2>
+      <div id="myQuizzes">
+        <p class="empty">I tuoi quiz salvati appariranno qui!</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>🌍 Esplora i quiz</h2>
+      <p class="empty">
+        La community sta preparando i suoi primi quiz! ✨
+      </p>
+      <p class="note">
+        I quiz condivisi e le classifiche con le percentuali saranno attivati
+        quando collegheremo il database. Per ora i quiz vengono salvati
+        soltanto in questo browser.
+      </p>
+    </div>
+
+    <footer>♡ Bunzy — Ti annoi? Gioca con noi! ♡</footer>
+  </div>
+
+  <script>
+    const questionsBox = document.getElementById("questions");
+    const quizForm = document.getElementById("quizForm");
+    const message = document.getElementById("message");
+    const myQuizzes = document.getElementById("myQuizzes");
+
+    let questionCount = 0;
+
+    function addQuestion() {
+      questionCount++;
+
+      const card = document.createElement("div");
+      card.className = "question";
+
+      card.innerHTML = `
+        <label>Domanda ${questionCount}</label>
+        <textarea class="question-text"
+          maxlength="300" placeholder="Scrivi la domanda..."
+          required></textarea>
+
+        <label>Risposta A</label>
+        <input class="answer-a" maxlength="150"
+          placeholder="Prima risposta" required>
+
+        <label>Risposta B</label>
+        <input class="answer-b" maxlength="150"
+          placeholder="Seconda risposta" required>
+
+        <button type="button" class="pink remove-question">
+          Rimuovi domanda
+        </button>
+      `;
+
+      card.querySelector(".remove-question").addEventListener("click", () => {
+        card.remove();
+        updateQuestionLabels();
+      });
+
+      questionsBox.appendChild(card);
+      updateQuestionLabels();
+    }
+
+    function updateQuestionLabels() {
+      [...questionsBox.querySelectorAll(".question")].forEach((card, index) => {
+        card.querySelector("label").textContent = `Domanda ${index + 1}`;
+      });
+    }
+
+    function renderQuizzes() {
+      myQuizzes.innerHTML = "";
+
+      let quizzes = [];
+
+      try {
+        quizzes = JSON.parse(localStorage.getItem("bunzyQuizzes") || "[]");
+        if (!Array.isArray(quizzes)) quizzes = [];
+      } catch {
+        quizzes = [];
+      }
+
+      if (quizzes.length === 0) {
+        myQuizzes.innerHTML =
+          '<p class="empty">Non hai ancora creato quiz. Iniziamo? 🌸</p>';
+        return;
+      }
+
+      quizzes.slice().reverse().forEach((quiz) => {
+        const card = document.createElement("div");
+        card.className = "saved";
+
+        const title = document.createElement("h3");
+        title.textContent = "💗 " + quiz.title;
+
+        const category = document.createElement("p");
+        category.textContent =
+          `${quiz.category} · ${quiz.questions.length} domande`;
+
+        const privacy = document.createElement("p");
+        privacy.className = "note";
+        privacy.textContent = quiz.publicConsent
+          ? "🌷 Hai dato il consenso alla futura pubblicazione."
+          : "🔒 Quiz privato.";
+
+        const remove = document.createElement("button");
+        remove.className = "pink";
+        remove.textContent = "Elimina quiz";
+        remove.addEventListener("click", () => {
+          if (!confirm("Vuoi eliminare questo quiz?")) return;
+
+          const current = JSON.parse(
+            localStorage.getItem("bunzyQuizzes") || "[]"
+          );
+          current.splice(quiz.id, 1);
+          localStorage.setItem("bunzyQuizzes", JSON.stringify(current));
+          renderQuizzes();
+        });
+
+        card.append(title, category, privacy, remove);
+        myQuizzes.appendChild(card);
+      });
+    }
+
+    document.getElementById("addQuestion").addEventListener("click", () => {
+      if (questionsBox.children.length >= 20) {
+        message.textContent = "Puoi aggiungere al massimo 20 domande.";
+        return;
+      }
+      addQuestion();
+    });
+
+    quizForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const questionCards = [
+        ...questionsBox.querySelectorAll(".question")
+      ];
+
+      if (questionCards.length === 0) {
+        message.textContent = "Aggiungi almeno una domanda! 🌸";
+        return;
+      }
+
+      const quiz = {
+        title: document.getElementById("quizTitle").value.trim(),
+        category: document.getElementById("quizCategory").value,
+        publicConsent: document.getElementById("publicConsent").checked,
+        questions: questionCards.map((card) => ({
+          text: card.querySelector(".question-text").value.trim(),
+          answers: [
+            card.querySelector(".answer-a").value.trim(),
+            card.querySelector(".answer-b").value.trim()
+          ]
+        })),
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        const quizzes = JSON.parse(
+          localStorage.getItem("bunzyQuizzes") || "[]"
+        );
+
+        if (!Array.isArray(quizzes)) throw new Error("Dati non validi");
+
+        quiz.id = quizzes.length;
+        quizzes.push(quiz);
+        localStorage.setItem("bunzyQuizzes", JSON.stringify(quizzes));
+
+        message.textContent = quiz.publicConsent
+          ? "Quiz salvato! Il consenso è registrato su questo dispositivo; non è ancora pubblicato online. 💗"
+          : "Quiz salvato come privato su questo dispositivo! 🔒";
+
+        quizForm.reset();
+        questionsBox.innerHTML = "";
+        questionCount = 0;
+        addQuestion();
+        renderQuizzes();
+      } catch {
+        message.textContent =
+          "Non riesco a salvare il quiz. Controlla lo spazio disponibile nel browser.";
+      }
+    });
+
+    addQuestion();
+    renderQuizzes();
+  </script>
+</body>
+</html>
