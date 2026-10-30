@@ -544,53 +544,205 @@
 
     // CREA UNA DOMANDA NELL'EDITOR
     function addQuestion(data = null) {
-      if (questionsBox.children.length >= 20) {
-        message.textContent = "Puoi aggiungere al massimo 20 domande.";
+  if (questionsBox.children.length >= 20) {
+    message.textContent = "Puoi aggiungere al massimo 20 domande.";
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "question";
+
+  // TESTO DELLA DOMANDA
+  const questionLabel = document.createElement("label");
+  questionLabel.textContent = "Domanda";
+
+  const questionText = document.createElement("textarea");
+  questionText.className = "question-text";
+  questionText.maxLength = 300;
+  questionText.placeholder = "Scrivi la domanda...";
+  questionText.required = true;
+  questionText.value = data ? data.text || "" : "";
+
+  // CONTENITORE DELLE RISPOSTE
+  const answersContainer = document.createElement("div");
+  answersContainer.className = "answers-container";
+
+  const answersHeading = document.createElement("label");
+  answersHeading.textContent = "Risposte (da 2 a 6)";
+
+  answersContainer.appendChild(answersHeading);
+
+  // SCELTA DELLA RISPOSTA CORRETTA
+  const correctLabel = document.createElement("label");
+  correctLabel.textContent = "Qual è la risposta corretta?";
+
+  const correctSelect = document.createElement("select");
+  correctSelect.className = "correct-select";
+
+  // AGGIUNGI RISPOSTA
+  const addAnswerButton = document.createElement("button");
+  addAnswerButton.type = "button";
+  addAnswerButton.textContent = "＋ Aggiungi risposta";
+
+  function updateCorrectOptions() {
+    const previousValue = correctSelect.value;
+    correctSelect.innerHTML = "";
+
+    const inputs = [
+      ...answersContainer.querySelectorAll(".answer-input")
+    ];
+
+    inputs.forEach((input, index) => {
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent =
+        `Risposta ${String.fromCharCode(65 + index)}: ` +
+        (input.value.trim() || "Da completare");
+
+      correctSelect.appendChild(option);
+    });
+
+    if (
+      [...correctSelect.options].some(
+        option => option.value === previousValue
+      )
+    ) {
+      correctSelect.value = previousValue;
+    }
+  }
+
+  function updateAnswerLabels() {
+    const inputs = [
+      ...answersContainer.querySelectorAll(".answer-input")
+    ];
+
+    inputs.forEach((input, index) => {
+      input.placeholder =
+        `Risposta ${String.fromCharCode(65 + index)}`;
+    });
+
+    addAnswerButton.hidden = inputs.length >= 6;
+    updateCorrectOptions();
+  }
+
+  function addAnswer(value = "") {
+    const currentInputs =
+      answersContainer.querySelectorAll(".answer-input");
+
+    if (currentInputs.length >= 6) {
+      return;
+    }
+
+    const row = document.createElement("div");
+    row.className = "answer-row";
+    row.style.display = "flex";
+    row.style.gap = "8px";
+    row.style.alignItems = "center";
+    row.style.marginBottom = "10px";
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "answer-input";
+    input.maxLength = 150;
+    input.placeholder =
+      `Risposta ${String.fromCharCode(65 + currentInputs.length)}`;
+    input.value = value;
+    input.required = true;
+    input.style.flex = "1";
+    input.style.minWidth = "0";
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "pink";
+    removeButton.textContent = "✕";
+    removeButton.title = "Rimuovi questa risposta";
+    removeButton.setAttribute("aria-label", "Rimuovi risposta");
+
+    input.addEventListener("input", updateCorrectOptions);
+
+    removeButton.addEventListener("click", () => {
+      const numberOfAnswers =
+        answersContainer.querySelectorAll(".answer-input").length;
+
+      if (numberOfAnswers <= 2) {
+        alert("Devi mantenere almeno 2 risposte!");
         return;
       }
 
-      questionCount++;
+      const removedIndex = [
+        ...answersContainer.querySelectorAll(".answer-input")
+      ].indexOf(input);
 
-      const card = document.createElement("div");
-      card.className = "question";
+      const selectedIndex = Number(correctSelect.value);
 
-      const questionLabel = document.createElement("label");
-      questionLabel.textContent = "Domanda";
+      row.remove();
 
-      const questionText = document.createElement("textarea");
-      questionText.className = "question-text";
-      questionText.maxLength = 300;
-      questionText.placeholder = "Scrivi la domanda...";
-      questionText.required = true;
+      // Mantiene selezionata la risposta corretta giusta.
+      if (selectedIndex === removedIndex) {
+        correctSelect.value = "0";
+      } else if (selectedIndex > removedIndex) {
+        correctSelect.value = String(selectedIndex - 1);
+      }
 
+      updateAnswerLabels();
+    });
 
-      const correctLabel = document.createElement("label");
-      correctLabel.textContent = "Qual è la risposta corretta?";
+    row.append(input, removeButton);
+    answersContainer.insertBefore(row, addAnswerButton);
+    updateAnswerLabels();
+  }
 
-      const correctSelect = document.createElement("select");
-      correctSelect.className = "correct-select";
-      correctSelect.innerHTML = `
-        <option value="0">Risposta A</option>
-        <option value="1">Risposta B</option>
-      `;
+  addAnswerButton.addEventListener("click", () => {
+    addAnswer();
+  });
 
-      const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "pink";
-      removeButton.textContent = "Rimuovi domanda";
+  // CREA LE 3 RISPOSTE INIZIALI
+  const initialAnswers = data
+    ? [...(data.answers || [])].slice(0, 6)
+    : [];
 
-      removeButton.addEventListener("click", () => {
-        card.remove();
-        updateQuestionLabels();
-      });
+  while (initialAnswers.length < 3) {
+    initialAnswers.push(
+      data && initialAnswers.length === 2
+        ? "Altra risposta"
+        : ""
+    );
+  }
 
-      
+  initialAnswers.forEach(answer => {
+    addAnswer(answer);
+  });
 
-      questionsBox.appendChild(card);
-      updateQuestionLabels();
-    }
+  answersContainer.appendChild(addAnswerButton);
+  updateAnswerLabels();
 
-    function updateQuestionLabels() {
+  // SELEZIONA LA RISPOSTA CORRETTA DEL MODELLO
+  correctSelect.value = String(data ? data.correct ?? 0 : 0);
+
+  // RIMUOVI DOMANDA
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className = "pink";
+  removeButton.textContent = "Rimuovi domanda";
+
+  removeButton.addEventListener("click", () => {
+    card.remove();
+    updateQuestionLabels();
+  });
+
+  // INSERISCE TUTTI GLI ELEMENTI NELLA SCHEDA
+  card.append(
+    questionLabel,
+    questionText,
+    answersContainer,
+    correctLabel,
+    correctSelect,
+    removeButton
+  );
+
+  questionsBox.appendChild(card);
+  updateQuestionLabels();
+}
       [...questionsBox.querySelectorAll(".question")].forEach(
         (card, index) => {
           card.querySelector("label").textContent =
