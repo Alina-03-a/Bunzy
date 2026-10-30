@@ -669,7 +669,15 @@
         return;
       }
 
-      
+      const questions = questionCards.map(card => ({
+  text: card.querySelector(".question-text").value.trim(),
+
+  answers: [
+    ...card.querySelectorAll(".answer-input")
+  ].map(input => input.value.trim()),
+
+  correct: Number(card.querySelector(".correct-select").value)
+}));
 
       if (questions.some(q => !q.text || !q.answers[0] || !q.answers[1])) {
         message.textContent = "Completa tutte le domande e le risposte!";
