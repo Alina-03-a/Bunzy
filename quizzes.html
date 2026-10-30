@@ -563,23 +563,6 @@
       questionText.placeholder = "Scrivi la domanda...";
       questionText.required = true;
 
-      const labelA = document.createElement("label");
-      labelA.textContent = "Risposta A";
-
-      const answerA = document.createElement("input");
-      answerA.className = "answer-a";
-      answerA.maxLength = 150;
-      answerA.placeholder = "Prima risposta";
-      answerA.required = true;
-
-      const labelB = document.createElement("label");
-      labelB.textContent = "Risposta B";
-
-      const answerB = document.createElement("input");
-      answerB.className = "answer-b";
-      answerB.maxLength = 150;
-      answerB.placeholder = "Seconda risposta";
-      answerB.required = true;
 
       const correctLabel = document.createElement("label");
       correctLabel.textContent = "Qual è la risposta corretta?";
@@ -601,24 +584,7 @@
         updateQuestionLabels();
       });
 
-      if (data) {
-        questionText.value = data.text || "";
-        answerA.value = data.answers?.[0] || "";
-        answerB.value = data.answers?.[1] || "";
-        correctSelect.value = String(data.correct ?? 0);
-      }
-
-      card.append(
-        questionLabel,
-        questionText,
-        labelA,
-        answerA,
-        labelB,
-        answerB,
-        correctLabel,
-        correctSelect,
-        removeButton
-      );
+      
 
       questionsBox.appendChild(card);
       updateQuestionLabels();
@@ -703,14 +669,7 @@
         return;
       }
 
-      const questions = questionCards.map(card => ({
-        text: card.querySelector(".question-text").value.trim(),
-        answers: [
-          card.querySelector(".answer-a").value.trim(),
-          card.querySelector(".answer-b").value.trim()
-        ],
-        correct: Number(card.querySelector(".correct-select").value)
-      }));
+      
 
       if (questions.some(q => !q.text || !q.answers[0] || !q.answers[1])) {
         message.textContent = "Completa tutte le domande e le risposte!";
