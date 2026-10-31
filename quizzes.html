@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -13,7 +11,9 @@
       src: url("Voluptuous%20Bubble.ttf") format("truetype");
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -59,7 +59,9 @@
       margin-top: 0;
     }
 
-    h3 { margin-top: 0; }
+    h3 {
+      margin-top: 0;
+    }
 
     label {
       display: block;
@@ -116,6 +118,28 @@
       border: 1px dashed #c96f91;
       border-radius: 18px;
       background: #fff7f8;
+    }
+
+    .answers-container {
+      margin-top: 10px;
+    }
+
+    .answer-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .answer-row input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .answer-row button {
+      flex-shrink: 0;
+      margin: 0;
+      padding: 10px 13px;
     }
 
     .template-grid {
@@ -187,7 +211,9 @@
       overflow-wrap: anywhere;
     }
 
-    .saved h3 { margin: 0 0 8px; }
+    .saved h3 {
+      margin: 0 0 8px;
+    }
 
     .empty {
       text-align: center;
@@ -233,14 +259,18 @@
       color: #9b717d;
     }
 
-    [hidden] { display: none !important; }
+    [hidden] {
+      display: none !important;
+    }
 
     @media (max-width: 480px) {
       .template-grid {
         grid-template-columns: 1fr;
       }
 
-      .panel { padding: 17px; }
+      .panel {
+        padding: 17px;
+      }
     }
   </style>
 </head>
@@ -256,6 +286,7 @@
     <!-- QUIZ PRONTI -->
     <section class="panel" id="templatesPanel">
       <h2>✨ Scegli un quiz</h2>
+
       <p class="note" style="text-align:center">
         Scegli un modello, personalizzalo e preparati a giocare!
       </p>
@@ -266,42 +297,42 @@
           <div class="emoji">💗</div>
           <h3>Bestie Quiz</h3>
           <p>Quanto mi conosce la mia migliore amica?</p>
-          <button onclick="loadTemplate('bestie')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('bestie')">Inizia →</button>
         </div>
 
         <div class="template">
           <div class="emoji">🌷</div>
           <h3>Quanto mi conosci?</h3>
           <p>Scopri chi conosce meglio i tuoi gusti.</p>
-          <button onclick="loadTemplate('conoscenza')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('conoscenza')">Inizia →</button>
         </div>
 
         <div class="template">
           <div class="emoji">💕</div>
           <h3>Love Quiz</h3>
           <p>Domande sui gusti e sulle preferenze romantiche.</p>
-          <button onclick="loadTemplate('love')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('love')">Inizia →</button>
         </div>
 
         <div class="template">
           <div class="emoji">🎀</div>
           <h3>Cosa preferisci?</h3>
           <p>Due alternative: quale sceglieresti?</p>
-          <button onclick="loadTemplate('preferenze')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('preferenze')">Inizia →</button>
         </div>
 
         <div class="template">
           <div class="emoji">🦋</div>
           <h3>Che tipo di persona sei?</h3>
           <p>Domande per scoprire qualcosa di te.</p>
-          <button onclick="loadTemplate('personalita')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('personalita')">Inizia →</button>
         </div>
 
         <div class="template">
           <div class="emoji">🎧</div>
           <h3>Musica e intrattenimento</h3>
           <p>Artisti, canzoni, film e serie TV.</p>
-          <button onclick="loadTemplate('musica')">Inizia →</button>
+          <button type="button" onclick="loadTemplate('musica')">Inizia →</button>
         </div>
 
       </div>
@@ -310,9 +341,11 @@
     <!-- CREA QUIZ -->
     <section class="panel">
       <h2>🌸 Crea il tuo quiz</h2>
+
       <p class="note" style="text-align:center">
         Puoi partire da zero oppure scegliere uno dei modelli qui sopra.
       </p>
+
       <button class="pink" type="button" id="createBlank">
         ＋ Crea un quiz da zero
       </button>
@@ -330,8 +363,12 @@
       <form id="quizForm">
 
         <label for="quizTitle">Come si chiamerà il tuo quiz?</label>
-        <input id="quizTitle" maxlength="80"
-          placeholder="Es. Quanto mi conosci?" required>
+        <input
+          id="quizTitle"
+          maxlength="80"
+          placeholder="Es. Quanto mi conosci?"
+          required
+        >
 
         <label for="quizCategory">Categoria</label>
         <select id="quizCategory">
@@ -374,6 +411,7 @@
     <!-- I MIEI QUIZ -->
     <section class="panel">
       <h2>💚 I miei quiz</h2>
+
       <div id="myQuizzes">
         <p class="empty">I tuoi quiz salvati appariranno qui!</p>
       </div>
@@ -382,9 +420,11 @@
     <!-- COMMUNITY -->
     <section class="panel">
       <h2>🌍 Esplora i quiz</h2>
+
       <p class="empty">
         La community sta preparando i suoi primi quiz! ✨
       </p>
+
       <p class="note">
         Per ora i quiz vengono salvati soltanto in questo browser.
         Per condividerli con altre persone e conservare i risultati
@@ -402,8 +442,6 @@
     const message = document.getElementById("message");
     const myQuizzes = document.getElementById("myQuizzes");
     const editorPanel = document.getElementById("editorPanel");
-
-    let questionCount = 0;
 
     // MODELLI DEI QUIZ
     const templates = {
@@ -542,224 +580,238 @@
 
     };
 
-    // CREA UNA DOMANDA NELL'EDITOR
-    function addQuestion(data = null) {
-  if (questionsBox.children.length >= 20) {
-    message.textContent = "Puoi aggiungere al massimo 20 domande.";
-    return;
-  }
-
-  const card = document.createElement("div");
-  card.className = "question";
-
-  // TESTO DELLA DOMANDA
-  const questionLabel = document.createElement("label");
-  questionLabel.textContent = "Domanda";
-
-  const questionText = document.createElement("textarea");
-  questionText.className = "question-text";
-  questionText.maxLength = 300;
-  questionText.placeholder = "Scrivi la domanda...";
-  questionText.required = true;
-  questionText.value = data ? data.text || "" : "";
-
-  // CONTENITORE DELLE RISPOSTE
-  const answersContainer = document.createElement("div");
-  answersContainer.className = "answers-container";
-
-  const answersHeading = document.createElement("label");
-  answersHeading.textContent = "Risposte (da 2 a 6)";
-
-  answersContainer.appendChild(answersHeading);
-
-  // SCELTA DELLA RISPOSTA CORRETTA
-  const correctLabel = document.createElement("label");
-  correctLabel.textContent = "Qual è la risposta corretta?";
-
-  const correctSelect = document.createElement("select");
-  correctSelect.className = "correct-select";
-
-  // AGGIUNGI RISPOSTA
-  const addAnswerButton = document.createElement("button");
-  addAnswerButton.type = "button";
-  addAnswerButton.textContent = "＋ Aggiungi risposta";
-
-  function updateCorrectOptions() {
-    const previousValue = correctSelect.value;
-    correctSelect.innerHTML = "";
-
-    const inputs = [
-      ...answersContainer.querySelectorAll(".answer-input")
-    ];
-
-    inputs.forEach((input, index) => {
-      const option = document.createElement("option");
-      option.value = String(index);
-      option.textContent =
-        `Risposta ${String.fromCharCode(65 + index)}: ` +
-        (input.value.trim() || "Da completare");
-
-      correctSelect.appendChild(option);
-    });
-
-    if (
-      [...correctSelect.options].some(
-        option => option.value === previousValue
-      )
-    ) {
-      correctSelect.value = previousValue;
-    }
-  }
-
-  function updateAnswerLabels() {
-    const inputs = [
-      ...answersContainer.querySelectorAll(".answer-input")
-    ];
-
-    inputs.forEach((input, index) => {
-      input.placeholder =
-        `Risposta ${String.fromCharCode(65 + index)}`;
-    });
-
-    addAnswerButton.hidden = inputs.length >= 6;
-    updateCorrectOptions();
-  }
-
-  function addAnswer(value = "") {
-    const currentInputs =
-      answersContainer.querySelectorAll(".answer-input");
-
-    if (currentInputs.length >= 6) {
-      return;
-    }
-
-    const row = document.createElement("div");
-    row.className = "answer-row";
-    row.style.display = "flex";
-    row.style.gap = "8px";
-    row.style.alignItems = "center";
-    row.style.marginBottom = "10px";
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.className = "answer-input";
-    input.maxLength = 150;
-    input.placeholder =
-      `Risposta ${String.fromCharCode(65 + currentInputs.length)}`;
-    input.value = value;
-    input.required = true;
-    input.style.flex = "1";
-    input.style.minWidth = "0";
-
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.className = "pink";
-    removeButton.textContent = "✕";
-    removeButton.title = "Rimuovi questa risposta";
-    removeButton.setAttribute("aria-label", "Rimuovi risposta");
-
-    input.addEventListener("input", updateCorrectOptions);
-
-    removeButton.addEventListener("click", () => {
-      const numberOfAnswers =
-        answersContainer.querySelectorAll(".answer-input").length;
-
-      if (numberOfAnswers <= 2) {
-        alert("Devi mantenere almeno 2 risposte!");
-        return;
-      }
-
-      const removedIndex = [
-        ...answersContainer.querySelectorAll(".answer-input")
-      ].indexOf(input);
-
-      const selectedIndex = Number(correctSelect.value);
-
-      row.remove();
-
-      // Mantiene selezionata la risposta corretta giusta.
-      if (selectedIndex === removedIndex) {
-        correctSelect.value = "0";
-      } else if (selectedIndex > removedIndex) {
-        correctSelect.value = String(selectedIndex - 1);
-      }
-
-      updateAnswerLabels();
-    });
-
-    row.append(input, removeButton);
-    answersContainer.insertBefore(row, addAnswerButton);
-    updateAnswerLabels();
-  }
-
-  addAnswerButton.addEventListener("click", () => {
-    addAnswer();
-  });
-
-  // CREA LE 3 RISPOSTE INIZIALI
-  const initialAnswers = data
-    ? [...(data.answers || [])].slice(0, 6)
-    : [];
-
-  while (initialAnswers.length < 3) {
-    initialAnswers.push(
-      data && initialAnswers.length === 2
-        ? "Altra risposta"
-        : ""
-    );
-  }
-
-  initialAnswers.forEach(answer => {
-    addAnswer(answer);
-  });
-
-  answersContainer.appendChild(addAnswerButton);
-  updateAnswerLabels();
-
-  // SELEZIONA LA RISPOSTA CORRETTA DEL MODELLO
-  correctSelect.value = String(data ? data.correct ?? 0 : 0);
-
-  // RIMUOVI DOMANDA
-  const removeButton = document.createElement("button");
-  removeButton.type = "button";
-  removeButton.className = "pink";
-  removeButton.textContent = "Rimuovi domanda";
-
-  removeButton.addEventListener("click", () => {
-    card.remove();
-    updateQuestionLabels();
-  });
-
-  // INSERISCE TUTTI GLI ELEMENTI NELLA SCHEDA
-  card.append(
-    questionLabel,
-    questionText,
-    answersContainer,
-    correctLabel,
-    correctSelect,
-    removeButton
-  );
-
-  questionsBox.appendChild(card);
-  updateQuestionLabels();
-}
+    // AGGIORNA I NUMERI DELLE DOMANDE
+    function updateQuestionLabels() {
       [...questionsBox.querySelectorAll(".question")].forEach(
         (card, index) => {
-          card.querySelector("label").textContent =
+          card.querySelector(".question-label").textContent =
             `Domanda ${index + 1}`;
         }
       );
     }
 
+    // CREA UNA DOMANDA NELL'EDITOR
+    function addQuestion(data = null) {
+
+      if (questionsBox.children.length >= 20) {
+        message.textContent = "Puoi aggiungere al massimo 20 domande.";
+        return;
+      }
+
+      const card = document.createElement("div");
+      card.className = "question";
+
+      // TESTO DELLA DOMANDA
+      const questionLabel = document.createElement("label");
+      questionLabel.className = "question-label";
+
+      const questionText = document.createElement("textarea");
+      questionText.className = "question-text";
+      questionText.maxLength = 300;
+      questionText.placeholder = "Scrivi la domanda...";
+      questionText.required = true;
+      questionText.value = data ? data.text || "" : "";
+
+      // CONTENITORE DELLE RISPOSTE
+      const answersContainer = document.createElement("div");
+      answersContainer.className = "answers-container";
+
+      const answersHeading = document.createElement("label");
+      answersHeading.textContent = "Risposte (da 2 a 6)";
+
+      answersContainer.appendChild(answersHeading);
+
+      // SCELTA DELLA RISPOSTA CORRETTA
+      const correctLabel = document.createElement("label");
+      correctLabel.textContent = "Qual è la risposta corretta?";
+
+      const correctSelect = document.createElement("select");
+      correctSelect.className = "correct-select";
+
+      // PULSANTE PER AGGIUNGERE RISPOSTE
+      const addAnswerButton = document.createElement("button");
+      addAnswerButton.type = "button";
+      addAnswerButton.textContent = "＋ Aggiungi risposta";
+
+      function updateCorrectOptions() {
+        const previousValue = correctSelect.value;
+
+        correctSelect.innerHTML = "";
+
+        const inputs = [
+          ...answersContainer.querySelectorAll(".answer-input")
+        ];
+
+        inputs.forEach((input, index) => {
+          const option = document.createElement("option");
+
+          option.value = String(index);
+
+          option.textContent =
+            `Risposta ${String.fromCharCode(65 + index)}: ` +
+            (input.value.trim() || "Da completare");
+
+          correctSelect.appendChild(option);
+        });
+
+        if (
+          [...correctSelect.options].some(
+            option => option.value === previousValue
+          )
+        ) {
+          correctSelect.value = previousValue;
+        }
+      }
+
+      function updateAnswerLabels() {
+        const inputs = [
+          ...answersContainer.querySelectorAll(".answer-input")
+        ];
+
+        inputs.forEach((input, index) => {
+          input.placeholder =
+            `Risposta ${String.fromCharCode(65 + index)}`;
+        });
+
+        addAnswerButton.hidden = inputs.length >= 6;
+
+        updateCorrectOptions();
+      }
+
+      // AGGIUNGE UNA SINGOLA RISPOSTA
+      function addAnswer(value = "") {
+
+        const currentInputs =
+          answersContainer.querySelectorAll(".answer-input");
+
+        if (currentInputs.length >= 6) {
+          return;
+        }
+
+        const row = document.createElement("div");
+        row.className = "answer-row";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "answer-input";
+        input.maxLength = 150;
+        input.value = value;
+        input.required = true;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "pink";
+        removeButton.textContent = "✕";
+        removeButton.title = "Rimuovi questa risposta";
+        removeButton.setAttribute("aria-label", "Rimuovi risposta");
+
+        input.addEventListener("input", updateCorrectOptions);
+
+        // RIMUOVI RISPOSTA
+        removeButton.addEventListener("click", () => {
+
+          const numberOfAnswers =
+            answersContainer.querySelectorAll(".answer-input").length;
+
+          if (numberOfAnswers <= 2) {
+            alert("Devi mantenere almeno 2 risposte!");
+            return;
+          }
+
+          const removedIndex = [
+            ...answersContainer.querySelectorAll(".answer-input")
+          ].indexOf(input);
+
+          const selectedIndex = Number(correctSelect.value);
+
+          row.remove();
+
+          if (selectedIndex === removedIndex) {
+            correctSelect.value = "0";
+          } else if (selectedIndex > removedIndex) {
+            correctSelect.value = String(selectedIndex - 1);
+          }
+
+          updateAnswerLabels();
+        });
+
+        row.append(input, removeButton);
+
+        answersContainer.insertBefore(row, addAnswerButton);
+
+        updateAnswerLabels();
+      }
+
+      addAnswerButton.addEventListener("click", () => {
+        addAnswer();
+      });
+
+      /*
+        IMPORTANTE:
+        Il pulsante viene inserito prima di creare le risposte.
+        In questo modo insertBefore() funziona correttamente.
+      */
+      answersContainer.appendChild(addAnswerButton);
+
+      // CREA LE 3 RISPOSTE INIZIALI
+      const initialAnswers = data
+        ? [...(data.answers || [])].slice(0, 6)
+        : [];
+
+      while (initialAnswers.length < 3) {
+        initialAnswers.push(
+          data && initialAnswers.length === 2
+            ? "Altra risposta"
+            : ""
+        );
+      }
+
+      initialAnswers.forEach(answer => {
+        addAnswer(answer);
+      });
+
+      updateAnswerLabels();
+
+      // SELEZIONA LA RISPOSTA CORRETTA
+      correctSelect.value = String(
+        data ? data.correct ?? 0 : 0
+      );
+
+      // RIMUOVI DOMANDA
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "pink";
+      removeButton.textContent = "Rimuovi domanda";
+
+      removeButton.addEventListener("click", () => {
+        card.remove();
+        updateQuestionLabels();
+      });
+
+      // INSERISCE TUTTI GLI ELEMENTI
+      card.append(
+        questionLabel,
+        questionText,
+        answersContainer,
+        correctLabel,
+        correctSelect,
+        removeButton
+      );
+
+      questionsBox.appendChild(card);
+
+      updateQuestionLabels();
+    }
+
     // APRE UN MODELLO PRONTO
     function loadTemplate(name) {
+
       const template = templates[name];
 
       if (!template) return;
 
       quizForm.reset();
       questionsBox.innerHTML = "";
-      questionCount = 0;
 
       document.getElementById("quizTitle").value = template.title;
       document.getElementById("quizCategory").value = template.category;
@@ -775,32 +827,43 @@
         "Puoi modificare tutte le domande e le risposte prima di salvare! 💗";
 
       editorPanel.hidden = false;
-      editorPanel.scrollIntoView({ behavior: "smooth" });
+
+      editorPanel.scrollIntoView({
+        behavior: "smooth"
+      });
     }
 
     // CREA UN QUIZ DA ZERO
     document.getElementById("createBlank").addEventListener("click", () => {
+
       quizForm.reset();
       questionsBox.innerHTML = "";
-      questionCount = 0;
 
       document.getElementById("quizTitle").value = "";
+
       document.getElementById("editorHeading").textContent =
         "🌸 Crea il tuo quiz";
 
       message.textContent = "";
+
       addQuestion();
 
       editorPanel.hidden = false;
-      editorPanel.scrollIntoView({ behavior: "smooth" });
+
+      editorPanel.scrollIntoView({
+        behavior: "smooth"
+      });
     });
 
     // ANNULLA EDITOR
     document.getElementById("cancelEditor").addEventListener("click", () => {
+
       editorPanel.hidden = true;
+
       quizForm.reset();
       questionsBox.innerHTML = "";
-      questionCount = 0;
+
+      message.textContent = "";
     });
 
     // AGGIUNGI DOMANDA
@@ -810,6 +873,7 @@
 
     // SALVA IL QUIZ
     quizForm.addEventListener("submit", (event) => {
+
       event.preventDefault();
 
       const questionCards = [
@@ -822,32 +886,55 @@
       }
 
       const questions = questionCards.map(card => ({
-  text: card.querySelector(".question-text").value.trim(),
 
-  answers: [
-    ...card.querySelectorAll(".answer-input")
-  ].map(input => input.value.trim()),
+        text: card.querySelector(".question-text").value.trim(),
 
-  correct: Number(card.querySelector(".correct-select").value)
-}));
+        answers: [
+          ...card.querySelectorAll(".answer-input")
+        ].map(input => input.value.trim()),
 
-      if (questions.some(q => !q.text || !q.answers[0] || !q.answers[1])) {
-        message.textContent = "Completa tutte le domande e le risposte!";
+        correct: Number(
+          card.querySelector(".correct-select").value
+        )
+
+      }));
+
+      // CONTROLLA DOMANDE E RISPOSTE
+      if (
+        questions.some(q =>
+          !q.text ||
+          q.answers.length < 2 ||
+          q.answers.some(answer => !answer)
+        )
+      ) {
+        message.textContent =
+          "Completa tutte le domande e tutte le risposte!";
         return;
       }
 
       const quiz = {
-        id: (crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now().toString()),
+
+        id: (
+          typeof crypto !== "undefined" && crypto.randomUUID
+            ? crypto.randomUUID()
+            : Date.now().toString()
+        ),
+
         title: document.getElementById("quizTitle").value.trim(),
+
         category: document.getElementById("quizCategory").value,
-        publicConsent: document.getElementById("publicConsent").checked,
+
+        publicConsent:
+          document.getElementById("publicConsent").checked,
+
         questions,
+
         createdAt: new Date().toISOString()
+
       };
 
       try {
+
         const quizzes = JSON.parse(
           localStorage.getItem("bunzyQuizzes") || "[]"
         );
@@ -858,7 +945,10 @@
 
         quizzes.push(quiz);
 
-        localStorage.setItem("bunzyQuizzes", JSON.stringify(quizzes));
+        localStorage.setItem(
+          "bunzyQuizzes",
+          JSON.stringify(quizzes)
+        );
 
         message.textContent = quiz.publicConsent
           ? "Quiz salvato! Il consenso è registrato su questo dispositivo; non è ancora pubblicato online. 💗"
@@ -866,41 +956,51 @@
 
         quizForm.reset();
         questionsBox.innerHTML = "";
-        questionCount = 0;
+
         editorPanel.hidden = true;
 
         renderQuizzes();
 
-      } catch {
+      } catch (error) {
+
         message.textContent =
           "Non riesco a salvare il quiz. Controlla lo spazio disponibile nel browser.";
+
       }
+
     });
 
     // MOSTRA I QUIZ SALVATI
     function renderQuizzes() {
+
       myQuizzes.innerHTML = "";
 
       let quizzes = [];
 
       try {
+
         quizzes = JSON.parse(
           localStorage.getItem("bunzyQuizzes") || "[]"
         );
 
-        if (!Array.isArray(quizzes)) quizzes = [];
+        if (!Array.isArray(quizzes)) {
+          quizzes = [];
+        }
 
       } catch {
         quizzes = [];
       }
 
       if (quizzes.length === 0) {
+
         myQuizzes.innerHTML =
           '<p class="empty">Non hai ancora creato quiz. Iniziamo? 🌸</p>';
+
         return;
       }
 
       quizzes.slice().reverse().forEach(quiz => {
+
         const card = document.createElement("div");
         card.className = "saved";
 
@@ -913,51 +1013,70 @@
 
         const privacy = document.createElement("p");
         privacy.className = "note";
+
         privacy.textContent = quiz.publicConsent
           ? "🌷 Hai dato il consenso alla futura pubblicazione."
           : "🔒 Quiz privato.";
 
         const play = document.createElement("button");
         play.textContent = "🎮 Gioca";
-        play.addEventListener("click", () => playQuiz(quiz));
+
+        play.addEventListener("click", () => {
+          playQuiz(quiz);
+        });
 
         const remove = document.createElement("button");
         remove.className = "pink";
         remove.textContent = "Elimina quiz";
 
         remove.addEventListener("click", () => {
-          if (!confirm("Vuoi eliminare questo quiz?")) return;
+
+          if (!confirm("Vuoi eliminare questo quiz?")) {
+            return;
+          }
 
           const current = JSON.parse(
             localStorage.getItem("bunzyQuizzes") || "[]"
           );
 
-          const updated = current.filter(item => item.id !== quiz.id);
+          const updated = current.filter(
+            item => item.id !== quiz.id
+          );
 
-          localStorage.setItem("bunzyQuizzes", JSON.stringify(updated));
+          localStorage.setItem(
+            "bunzyQuizzes",
+            JSON.stringify(updated)
+          );
+
           renderQuizzes();
         });
 
         card.append(title, category, privacy, play, remove);
+
         myQuizzes.appendChild(card);
+
       });
     }
 
     // GIOCA AL QUIZ
     function playQuiz(quiz) {
+
       let index = 0;
       let score = 0;
+
       const userAnswers = [];
 
       myQuizzes.innerHTML = "";
 
       function showQuestion() {
+
         const question = quiz.questions[index];
 
         const area = document.createElement("div");
         area.className = "saved";
 
         const heading = document.createElement("h3");
+
         heading.textContent =
           `Domanda ${index + 1} di ${quiz.questions.length}`;
 
@@ -966,6 +1085,7 @@
 
         const fill = document.createElement("div");
         fill.className = "progress-fill";
+
         fill.style.width =
           `${(index / quiz.questions.length) * 100}%`;
 
@@ -976,24 +1096,33 @@
 
         area.append(heading, progress, prompt);
 
+        // MOSTRA TUTTE LE RISPOSTE
         question.answers.forEach((answer, answerIndex) => {
+
           const choice = document.createElement("button");
           choice.className = "quiz-option";
           choice.textContent = answer;
 
           choice.addEventListener("click", () => {
+
             const isCorrect =
-              question.correct !== undefined &&
               answerIndex === Number(question.correct);
 
-            if (isCorrect) score++;
+            if (isCorrect) {
+              score++;
+            }
 
             userAnswers.push({
+
               question: question.text,
+
               answer,
+
               correctAnswer:
                 question.answers[question.correct] || "Non disponibile",
+
               isCorrect
+
             });
 
             index++;
@@ -1003,13 +1132,16 @@
             } else {
               showResults();
             }
+
           });
 
           area.appendChild(choice);
+
         });
 
         const exit = document.createElement("button");
         exit.textContent = "✕ Esci dal quiz";
+
         exit.addEventListener("click", renderQuizzes);
 
         area.appendChild(exit);
@@ -1018,7 +1150,9 @@
         myQuizzes.appendChild(area);
       }
 
+      // RISULTATI FINALI
       function showResults() {
+
         myQuizzes.innerHTML = "";
 
         const result = document.createElement("div");
@@ -1028,12 +1162,14 @@
         heading.textContent = "🎉 Hai finito!";
 
         const subtitle = document.createElement("h3");
+
         subtitle.textContent =
           `Hai ottenuto ${score} su ${quiz.questions.length} punti! 💗`;
 
         result.append(heading, subtitle);
 
         userAnswers.forEach((item, i) => {
+
           const line = document.createElement("p");
 
           line.textContent = item.isCorrect
@@ -1041,29 +1177,39 @@
             : `❌ ${i + 1}. ${item.question} — Hai scelto: ${item.answer}. Risposta corretta: ${item.correctAnswer}`;
 
           result.appendChild(line);
+
         });
 
         const replay = document.createElement("button");
         replay.textContent = "🔄 Rigioca";
+
         replay.addEventListener("click", () => {
+
           index = 0;
           score = 0;
+
           userAnswers.length = 0;
+
           showQuestion();
+
         });
 
         const exit = document.createElement("button");
         exit.textContent = "🌷 Torna ai miei quiz";
+
         exit.addEventListener("click", renderQuizzes);
 
         result.append(replay, exit);
+
         myQuizzes.appendChild(result);
       }
 
       showQuestion();
     }
 
+    // CARICA I QUIZ GIÀ SALVATI
     renderQuizzes();
+
   </script>
 </body>
 </html>
