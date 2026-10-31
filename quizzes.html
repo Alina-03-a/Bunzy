@@ -444,142 +444,171 @@
     const editorPanel = document.getElementById("editorPanel");
 
     // MODELLI DEI QUIZ
-    const templates = {
+const templates = {
 
-      bestie: {
-        title: "Bestie Quiz 💗",
-        category: "Bestie Quiz",
-        questions: [
-          {
-            text: "Qual è il mio cibo preferito?",
-            answers: ["Pizza", "Pasta"],
-            correct: 0
-          },
-          {
-            text: "Qual è il mio colore preferito?",
-            answers: ["Rosa", "Verde"],
-            correct: 0
-          },
-          {
-            text: "Cosa preferisco fare nel tempo libero?",
-            answers: ["Uscire", "Guardare film"],
-            correct: 0
-          }
-        ]
-      },
+  bestie: {
+    title: "Bestie Quiz 💗",
+    category: "Bestie Quiz",
+    questions: [
+      { text: "Qual è il mio cibo preferito?", answers: ["Pizza", "Pasta"], correct: 0 },
+      { text: "Qual è il mio colore preferito?", answers: ["Rosa", "Verde"], correct: 0 },
+      { text: "Qual è la mia stagione preferita?", answers: ["Estate", "Inverno"], correct: 0 },
+      { text: "Qual è il mio animale preferito?", answers: ["Gatto", "Cane"], correct: 0 },
+      { text: "Qual è la mia bevanda preferita?", answers: ["Tè", "Succo"], correct: 0 },
+      { text: "Qual è il mio dolce preferito?", answers: ["Tiramisù", "Gelato"], correct: 0 },
+      { text: "Qual è il mio genere musicale preferito?", answers: ["Pop", "Rock"], correct: 0 },
+      { text: "Qual è il mio cantante preferito?", answers: ["Artista 1", "Artista 2"], correct: 0 },
+      { text: "Preferisco uscire o stare a casa?", answers: ["Uscire", "Stare a casa"], correct: 0 },
+      { text: "Qual è il mio giorno preferito?", answers: ["Sabato", "Domenica"], correct: 0 },
+      { text: "Quale social uso di più?", answers: ["Instagram", "TikTok"], correct: 0 },
+      { text: "Qual è il mio film preferito?", answers: ["Commedia", "Romantico"], correct: 0 },
+      { text: "Preferisco il mare o la montagna?", answers: ["Mare", "Montagna"], correct: 0 },
+      { text: "Qual è il mio mese preferito?", answers: ["Ottobre", "Agosto"], correct: 0 },
+      { text: "Cosa mi fa ridere di più?", answers: ["Battute", "Video divertenti"], correct: 0 },
+      { text: "Sono più mattiniera o nottambula?", answers: ["Nottambula", "Mattiniera"], correct: 0 },
+      { text: "Quale materia scolastica preferisco?", answers: ["Arte", "Inglese"], correct: 0 },
+      { text: "Qual è il mio hobby preferito?", answers: ["Musica", "Disegno"], correct: 0 },
+      { text: "Quale vacanza sceglierei?", answers: ["Al mare", "In una città"], correct: 0 },
+      { text: "Cosa mi rende più felice?", answers: ["Stare con gli amici", "Ricevere sorprese"], correct: 0 }
+    ]
+  },
 
-      conoscenza: {
-        title: "Quanto mi conosci? 🌷",
-        category: "Quanto mi conosci?",
-        questions: [
-          {
-            text: "Qual è la mia stagione preferita?",
-            answers: ["Estate", "Inverno"],
-            correct: 0
-          },
-          {
-            text: "Qual è il mio animale preferito?",
-            answers: ["Gatto", "Cane"],
-            correct: 0
-          },
-          {
-            text: "Qual è il mio sogno più grande?",
-            answers: ["Viaggiare", "Avere successo"],
-            correct: 0
-          }
-        ]
-      },
+  conoscenza: {
+    title: "Quanto mi conosci? 🌷",
+    category: "Quanto mi conosci?",
+    questions: [
+      { text: "Qual è il mio colore preferito?", answers: ["Verde", "Blu"], correct: 0 },
+      { text: "Qual è il mio compleanno?", answers: ["In autunno", "In primavera"], correct: 0 },
+      { text: "Qual è il mio animale preferito?", answers: ["Gatto", "Cane"], correct: 0 },
+      { text: "Qual è il mio piatto preferito?", answers: ["Lasagna", "Pizza"], correct: 0 },
+      { text: "Quale città vorrei visitare?", answers: ["Parigi", "Londra"], correct: 0 },
+      { text: "Qual è il mio sogno più grande?", answers: ["Viaggiare", "Diventare famosa"], correct: 0 },
+      { text: "Quale lingua vorrei imparare?", answers: ["Coreano", "Francese"], correct: 0 },
+      { text: "Qual è il mio genere di film preferito?", answers: ["Romantico", "Azione"], correct: 0 },
+      { text: "Quale stagione mi rappresenta di più?", answers: ["Autunno", "Estate"], correct: 0 },
+      { text: "Quale bevanda scelgo più spesso?", answers: ["Acqua", "Tè freddo"], correct: 0 },
+      { text: "Qual è il mio fiore preferito?", answers: ["Rosa", "Tulipano"], correct: 0 },
+      { text: "Preferisco i messaggi o le chiamate?", answers: ["Messaggi", "Chiamate"], correct: 0 },
+      { text: "Quale animale vorrei avere?", answers: ["Gatto", "Cane"], correct: 0 },
+      { text: "Qual è il mio momento preferito della giornata?", answers: ["Sera", "Mattina"], correct: 0 },
+      { text: "Cosa preferisco fare quando piove?", answers: ["Guardare un film", "Uscire"], correct: 0 },
+      { text: "Quale regalo mi piacerebbe ricevere?", answers: ["Un'esperienza", "Un oggetto"], correct: 0 },
+      { text: "Quale ambiente preferisco?", answers: ["Bosco", "Spiaggia"], correct: 0 },
+      { text: "Cosa ascolto più spesso?", answers: ["Musica pop", "Musica rap"], correct: 0 },
+      { text: "Quale superpotere sceglierei?", answers: ["Teletrasporto", "Invisibilità"], correct: 0 },
+      { text: "Cosa apprezzo di più in un'amicizia?", answers: ["Fiducia", "Divertimento"], correct: 0 }
+    ]
+  },
 
-      love: {
-        title: "Love Quiz 💕",
-        category: "Love Quiz",
-        questions: [
-          {
-            text: "Qual è il mio appuntamento ideale?",
-            answers: ["Una passeggiata", "Una cena"],
-            correct: 0
-          },
-          {
-            text: "Cosa apprezzo di più in una persona?",
-            answers: ["L'ironia", "La sincerità"],
-            correct: 0
-          },
-          {
-            text: "Qual è il mio linguaggio d'amore preferito?",
-            answers: ["Parole dolci", "Tempo insieme"],
-            correct: 0
-          }
-        ]
-      },
+  love: {
+    title: "Love Quiz 💕",
+    category: "Love Quiz",
+    questions: [
+      { text: "Qual è il mio appuntamento ideale?", answers: ["Una passeggiata", "Una cena"], correct: 0 },
+      { text: "Cosa apprezzo di più in una persona?", answers: ["Sincerità", "Ironia"], correct: 0 },
+      { text: "Qual è il mio linguaggio d'amore preferito?", answers: ["Parole dolci", "Tempo insieme"], correct: 0 },
+      { text: "Credo nell'amore a prima vista?", answers: ["Sì", "No"], correct: 0 },
+      { text: "Preferisco una persona romantica o divertente?", answers: ["Romantica", "Divertente"], correct: 0 },
+      { text: "Quale gesto mi conquista di più?", answers: ["Un messaggio inaspettato", "Un regalo"], correct: 0 },
+      { text: "Preferisco una serata tranquilla o movimentata?", answers: ["Tranquilla", "Movimentata"], correct: 0 },
+      { text: "Quale qualità considero fondamentale?", answers: ["Rispetto", "Generosità"], correct: 0 },
+      { text: "Mi piacciono le sorprese?", answers: ["Sì", "No"], correct: 0 },
+      { text: "Preferisco parlare per ore o fare attività insieme?", answers: ["Parlare", "Fare attività"], correct: 0 },
+      { text: "Quale regalo romantico preferirei?", answers: ["Una lettera", "Un mazzo di fiori"], correct: 0 },
+      { text: "Quale atmosfera preferisco?", answers: ["Luci soffuse", "Una giornata al sole"], correct: 0 },
+      { text: "Cosa conta di più in una relazione?", answers: ["Fiducia", "Complicità"], correct: 0 },
+      { text: "Preferisco una persona timida o estroversa?", answers: ["Timida", "Estroversa"], correct: 0 },
+      { text: "Quale appuntamento sceglierei?", answers: ["Cinema", "Picnic"], correct: 0 },
+      { text: "Mi piacciono le lettere scritte a mano?", answers: ["Sì", "No"], correct: 0 },
+      { text: "Quale qualità mi colpisce subito?", answers: ["Il sorriso", "Il carattere"], correct: 0 },
+      { text: "Preferisco una relazione spontanea o organizzata?", answers: ["Spontanea", "Organizzata"], correct: 0 },
+      { text: "Quale canzone dedicherei a qualcuno?", answers: ["Una ballata romantica", "Una canzone allegra"], correct: 0 },
+      { text: "Cosa rende speciale una persona?", answers: ["Il modo di essere", "Le attenzioni"], correct: 0 }
+    ]
+  },
 
-      preferenze: {
-        title: "Cosa preferisci? 🎀",
-        category: "Cosa preferisci?",
-        questions: [
-          {
-            text: "Mare o montagna?",
-            answers: ["Mare", "Montagna"],
-            correct: 0
-          },
-          {
-            text: "Dolce o salato?",
-            answers: ["Dolce", "Salato"],
-            correct: 0
-          },
-          {
-            text: "Film o serie TV?",
-            answers: ["Film", "Serie TV"],
-            correct: 0
-          }
-        ]
-      },
+  preferenze: {
+    title: "Cosa preferisci? 🎀",
+    category: "Cosa preferisci?",
+    questions: [
+      { text: "Mare o montagna?", answers: ["Mare", "Montagna"], correct: 0 },
+      { text: "Dolce o salato?", answers: ["Dolce", "Salato"], correct: 0 },
+      { text: "Film o serie TV?", answers: ["Film", "Serie TV"], correct: 0 },
+      { text: "Estate o inverno?", answers: ["Estate", "Inverno"], correct: 0 },
+      { text: "Gatti o cani?", answers: ["Gatti", "Cani"], correct: 0 },
+      { text: "Alba o tramonto?", answers: ["Alba", "Tramonto"], correct: 0 },
+      { text: "Pizza o hamburger?", answers: ["Pizza", "Hamburger"], correct: 0 },
+      { text: "Musica o podcast?", answers: ["Musica", "Podcast"], correct: 0 },
+      { text: "Rosa o lilla?", answers: ["Rosa", "Lilla"], correct: 0 },
+      { text: "TikTok o Instagram?", answers: ["TikTok", "Instagram"], correct: 0 },
+      { text: "Libri o film?", answers: ["Libri", "Film"], correct: 0 },
+      { text: "Viaggio in aereo o in treno?", answers: ["Aereo", "Treno"], correct: 0 },
+      { text: "Shopping online o nei negozi?", answers: ["Online", "Nei negozi"], correct: 0 },
+      { text: "Messaggi o chiamate?", answers: ["Messaggi", "Chiamate"], correct: 0 },
+      { text: "Città o campagna?", answers: ["Città", "Campagna"], correct: 0 },
+      { text: "Pigiama o vestiti eleganti?", answers: ["Pigiama", "Vestiti eleganti"], correct: 0 },
+      { text: "Cioccolato bianco o fondente?", answers: ["Bianco", "Fondente"], correct: 0 },
+      { text: "Concerti o cinema?", answers: ["Concerti", "Cinema"], correct: 0 },
+      { text: "Organizzare tutto o improvvisare?", answers: ["Organizzare", "Improvvisare"], correct: 0 },
+      { text: "Notte stellata o giornata di sole?", answers: ["Notte stellata", "Giornata di sole"], correct: 0 }
+    ]
+  },
 
-      personalita: {
-        title: "Che tipo di persona sei? 🦋",
-        category: "Che tipo di persona sei?",
-        questions: [
-          {
-            text: "In un gruppo di amici sei...",
-            answers: ["Quella che parla", "Quella che ascolta"],
-            correct: 0
-          },
-          {
-            text: "Nel weekend preferisci...",
-            answers: ["Uscire", "Rilassarti"],
-            correct: 0
-          },
-          {
-            text: "Quando devi scegliere...",
-            answers: ["Seguo il cuore", "Seguo la ragione"],
-            correct: 0
-          }
-        ]
-      },
+  personalita: {
+    title: "Che tipo di persona sei? 🦋",
+    category: "Che tipo di persona sei?",
+    questions: [
+      { text: "In un gruppo di amici sei...", answers: ["Quella che parla", "Quella che ascolta"], correct: 0 },
+      { text: "Nel weekend preferisci...", answers: ["Uscire", "Rilassarti"], correct: 0 },
+      { text: "Quando devi scegliere...", answers: ["Seguo il cuore", "Seguo la ragione"], correct: 0 },
+      { text: "Quando incontri nuove persone...", answers: ["Faccio subito amicizia", "Ho bisogno di tempo"], correct: 0 },
+      { text: "In una discussione...", answers: ["Parlo subito", "Rifletto prima"], correct: 0 },
+      { text: "Sei più...", answers: ["Introversa", "Estroversa"], correct: 0 },
+      { text: "Quando hai un problema...", answers: ["Cerco una soluzione", "Chiedo consiglio"], correct: 0 },
+      { text: "Ti definiresti più...", answers: ["Creativa", "Razionale"], correct: 0 },
+      { text: "Quando fai un viaggio...", answers: ["Programmo tutto", "Decido sul momento"], correct: 0 },
+      { text: "In un gruppo preferisci...", answers: ["Guidare", "Collaborare"], correct: 0 },
+      { text: "Quando ricevi una sorpresa...", answers: ["Mi emoziono", "Mi stupisco"], correct: 0 },
+      { text: "Ti consideri una persona...", answers: ["Paziente", "Impulsiva"], correct: 0 },
+      { text: "Quando ascolti musica...", answers: ["Canto", "Ascolto in silenzio"], correct: 0 },
+      { text: "Preferisci...", answers: ["Pochi amici stretti", "Tanti amici"], correct: 0 },
+      { text: "Davanti a una sfida...", answers: ["Mi butto", "Ci penso bene"], correct: 0 },
+      { text: "Il tuo ambiente ideale è...", answers: ["Calmo", "Pieno di energia"], correct: 0 },
+      { text: "Quando devi lavorare...", answers: ["Da sola", "In gruppo"], correct: 0 },
+      { text: "Sei più...", answers: ["Sognatrice", "Concreta"], correct: 0 },
+      { text: "Quando qualcosa cambia...", answers: ["Mi adatto facilmente", "Preferisco la stabilità"], correct: 0 },
+      { text: "Cosa ti descrive meglio?", answers: ["Sensibile", "Determinata"], correct: 0 }
+    ]
+  },
 
-      musica: {
-        title: "Musica e intrattenimento 🎧",
-        category: "Musica e intrattenimento",
-        questions: [
-          {
-            text: "Qual è il mio cantante preferito?",
-            answers: ["Artista 1", "Artista 2"],
-            correct: 0
-          },
-          {
-            text: "Quale genere musicale preferisco?",
-            answers: ["Pop", "Rock"],
-            correct: 0
-          },
-          {
-            text: "Cosa preferisco guardare?",
-            answers: ["Film", "Serie TV"],
-            correct: 0
-          }
-        ]
-      }
+  musica: {
+    title: "Musica e intrattenimento 🎧",
+    category: "Musica e intrattenimento",
+    questions: [
+      { text: "Quale genere musicale preferisci?", answers: ["Pop", "Rock"], correct: 0 },
+      { text: "Preferisci ascoltare musica italiana o inglese?", answers: ["Italiana", "Inglese"], correct: 0 },
+      { text: "Quale strumento ti piace di più?", answers: ["Pianoforte", "Chitarra"], correct: 0 },
+      { text: "Preferisci le canzoni tristi o allegre?", answers: ["Tristi", "Allegre"], correct: 0 },
+      { text: "Meglio ascoltare musica con le cuffie o con le casse?", answers: ["Cuffie", "Casse"], correct: 0 },
+      { text: "Quale formato preferisci?", answers: ["Album", "Singoli"], correct: 0 },
+      { text: "Preferisci concerti o festival?", answers: ["Concerti", "Festival"], correct: 0 },
+      { text: "Quale piattaforma usi di più?", answers: ["Spotify", "YouTube"], correct: 0 },
+      { text: "Preferisci film o serie TV?", answers: ["Film", "Serie TV"], correct: 0 },
+      { text: "Quale genere di film scegli?", answers: ["Romantico", "Thriller"], correct: 0 },
+      { text: "Preferisci i K-drama o le serie occidentali?", answers: ["K-drama", "Serie occidentali"], correct: 0 },
+      { text: "Meglio guardare un film al cinema o a casa?", answers: ["Cinema", "Casa"], correct: 0 },
+      { text: "Preferisci cantare o ballare?", answers: ["Cantare", "Ballare"], correct: 0 },
+      { text: "Quale spettacolo sceglieresti?", answers: ["Musical", "Concerto"], correct: 0 },
+      { text: "Preferisci le colonne sonore o le canzoni pop?", answers: ["Colonne sonore", "Pop"], correct: 0 },
+      { text: "Ti piace scoprire nuovi artisti?", answers: ["Sì", "No"], correct: 0 },
+      { text: "Preferisci ascoltare musica da sola o con amici?", answers: ["Da sola", "Con amici"], correct: 0 },
+      { text: "Quale storia preferisci?", answers: ["Romantica", "Misteriosa"], correct: 0 },
+      { text: "Preferisci i finali felici o sorprendenti?", answers: ["Felici", "Sorprendenti"], correct: 0 },
+      { text: "Quale contenuto guardi più spesso?", answers: ["Video musicali", "Serie e film"], correct: 0 }
+    ]
+  }
 
-    };
-
+};
     // AGGIORNA I NUMERI DELLE DOMANDE
     function updateQuestionLabels() {
       [...questionsBox.querySelectorAll(".question")].forEach(
